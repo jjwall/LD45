@@ -29,8 +29,10 @@ export function setEventListeners(canvas: HTMLCanvasElement, stateStack: BaseSta
         last(stateStack).click(e.offsetX, 720 - e.offsetY);
         last(stateStack).getEntitiesByKey<Entity>("control").forEach(ent=> {
             if (ent.control) {
-                ent.control.x = e.offsetX;
-                ent.control.y = 720 - e.offsetY;
+                if (ent.control.selected) {
+                    ent.control.x = e.offsetX;
+                    ent.control.y = 720 - e.offsetY;
+                }
             }
         });
     });
