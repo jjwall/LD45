@@ -3,6 +3,7 @@ import { BaseState } from "../basestate";
 import { Widget } from "../ui/widget";
 import { Entity } from "./entity";
 import { last } from "./helpers";
+import { Box3 } from "three";
 
 export function setEventListeners(canvas: HTMLCanvasElement, stateStack: BaseState[]) {
     let hoveredWidgets: Widget[] = [];
@@ -13,15 +14,28 @@ export function setEventListeners(canvas: HTMLCanvasElement, stateStack: BaseSta
         scaleToWindow(canvas);
     });
 
-    canvas.addEventListener("mousedown", function (e: MouseEvent) {
+    canvas.addEventListener("click", function (e: MouseEvent) {
         traverseTreeForOnClick(last(stateStack).rootWidget, e);
         canvas.setAttribute("class", "default");
-        // last(stateStack).getEntitiesByKey<Entity>("control").forEach(ent=> {
-        //     if (ent.control) {
-        //         ent.control.x = e.offsetX;
-        //         ent.control.y = 720 - e.offsetY;
-        //     }
-        // });
+        last(stateStack).getEntitiesByKey<Entity>("control").forEach(ent=> {
+            if (ent.control && ent.sprite && ent.pos) {
+                const boundingBox = new Box3().setFromObject(ent.sprite);
+                const spriteHeight = boundingBox.max.y - boundingBox.min.y;
+                const spriteWidth =  boundingBox.max.x - boundingBox.min.x;
+
+                if (e.offsetY -720 > -ent.pos.loc.y - spriteHeight/2
+                    && e.offsetY -720 - spriteHeight/2 < -ent.pos.loc.y
+                    && e.offsetX > ent.pos.loc.x - spriteWidth/2
+                    && e.offsetX - spriteWidth/2 < ent.pos.loc.x)
+                {
+                    ent.control.selected = true;
+                }
+                else {
+                    ent.control.selected = false;
+                }
+                console.log(ent.control.selected);
+            }
+        });
     });
 
     canvas.addEventListener("contextmenu", function (e: MouseEvent) {

@@ -31,12 +31,12 @@ export function controlSystem(ents: ReadonlyArray<Entity>, state: GameState){
             if (ent.control.selected) {
                 if (ent.control.selector == undefined) {
                     ent.control.selector = new Entity();
-                    ent.control.selector.pos = initializePosition(ent.pos.loc.x + 5, ent.pos.loc.y - 20, 4);
+                    ent.control.selector.pos = initializePosition(ent.pos.loc.x + 3, ent.pos.loc.y - 20, 4);
                     ent.control.selector.sprite = initializeSprite("./data/textures/selector.png", state.gameScene, 4);
                     state.registerEntity(ent.control.selector);
                 }
                 else {
-                    ent.control.selector.pos.loc.x = ent.pos.loc.x + 5;
+                    ent.control.selector.pos.loc.x = ent.pos.loc.x + 4;
                     ent.control.selector.pos.loc.y = ent.pos.loc.y - 20;
                 }
             }
