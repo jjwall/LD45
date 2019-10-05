@@ -17,6 +17,7 @@ export function setEventListeners(canvas: HTMLCanvasElement, stateStack: BaseSta
     canvas.addEventListener("click", function (e: MouseEvent) {
         traverseTreeForOnClick(last(stateStack).rootWidget, e);
         canvas.setAttribute("class", "default");
+        let selected = false;
         last(stateStack).getEntitiesByKey<Entity>("control").forEach(ent=> {
             if (ent.control && ent.sprite && ent.pos) {
                 const boundingBox = new Box3().setFromObject(ent.sprite);
@@ -28,7 +29,10 @@ export function setEventListeners(canvas: HTMLCanvasElement, stateStack: BaseSta
                     && e.offsetX > ent.pos.loc.x - spriteWidth/2
                     && e.offsetX - spriteWidth/2 < ent.pos.loc.x)
                 {
-                    ent.control.selected = true;
+                    if (!selected)
+                        ent.control.selected = true;
+                        
+                    selected = true;
                 }
                 else {
                     ent.control.selected = false;

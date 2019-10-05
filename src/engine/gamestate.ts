@@ -54,25 +54,32 @@ export class GameState extends BaseState {
         this.registerSystem(animationSystem);
         this.registerSystem(timerSystem);
         this.registerSystem(positionSystem);
-        this.registerSystem(spawnerSystem);
-        this.registerSystem(followSystem);
-        // this.registerSystem(movementSystem);
+        // this.registerSystem(spawnerSystem);
+        // this.registerSystem(followSystem);
 
         // playAudio("./data/audio/Pale_Blue.mp3", 0.3, true);
 
         // Set up player entity.
-        let player = new Entity();
-        player.pos = initializePosition(640, 360, 5);
-        player.sprite = initializeSprite("./data/textures/marine.png", this.gameScene, 4);
-        player.control = initializeControls(player.pos.loc.x, player.pos.loc.y);
+        let marine1 = new Entity();
+        marine1.pos = initializePosition(640, 360, 5);
+        marine1.sprite = initializeSprite("./data/textures/marine.png", this.gameScene, 4);
+        marine1.control = initializeControls(marine1.pos.loc.x, marine1.pos.loc.y);
         // player.vel = initializeVelocity(.65);
         // player.vel.friction = 0.9;
         // player.anim = initializeAnimation(SequenceTypes.walk, playerAnim);
         // player.hurtBox = initializeHurtBox(player.sprite, HurtBoxTypes.test, 50, 50, -300, -100);
-        player.hurtBox = initializeHurtBox(player.sprite, HurtBoxTypes.player);
+        marine1.hurtBox = initializeHurtBox(marine1.sprite, HurtBoxTypes.player);
         // setHurtBoxGraphic(player.sprite, player.hurtBox);
         
-        this.registerEntity(player);
+        this.registerEntity(marine1);
+
+        let marine2 = new Entity();
+        marine2.pos = initializePosition(740, 360, 5);
+        marine2.sprite = initializeSprite("./data/textures/marine.png", this.gameScene, 4);
+        marine2.control = initializeControls(marine2.pos.loc.x, marine2.pos.loc.y);
+        // marine2.hurtBox = initializeHurtBox(marine1.sprite, HurtBoxTypes.player);
+        
+        this.registerEntity(marine2);
 
         // this.setUpEnemySpawner(1260, 700, player);
         // this.setUpEnemySpawner(20, 700, player);
