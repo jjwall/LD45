@@ -40,4 +40,8 @@ export class LoseState extends BaseState {
         // Render UI updates.
         layoutWidget(this.rootWidget);
     }
+    
+    public click(x: number, y: number) {
+        console.log("click");
+    }
 }

@@ -5,7 +5,7 @@ import { setHurtBoxGraphic, playAudio, setHitBoxGraphic } from "./helpers";
 import { HurtBoxTypes, SequenceTypes } from "./enums";
 import { controlSystem } from "./controlsystem";
 import { Entity } from "./entity";
-import { playerAnim } from "../../data/animations/player";
+import { markerAnim } from "../../data/animations/marker";
 import { BaseState } from "../basestate";
 import { Widget } from "../ui/widget";
 import { createWidget } from "../ui/widget";
@@ -124,6 +124,19 @@ export class GameState extends BaseState {
             });
             this.registerEntity(timer);
         }
+    }
+
+    public click(x: number, y: number) {
+        let marker = new Entity();
+        marker.pos = initializePosition(x, y, 5);
+        marker.sprite = initializeSprite("./data/textures/marker1.png", this.gameScene, 2);
+        marker.anim = initializeAnimation(SequenceTypes.idle, markerAnim);
+        marker.timer = initializeTimer(40, () => {
+            this.gameScene.remove(marker.sprite);
+            this.removeEntity(marker);
+        });
+
+        this.registerEntity(marker);
     }
 
     public pushLoseState = (): void => {

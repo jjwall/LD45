@@ -127,4 +127,6 @@ export abstract class BaseState {
             systemMap[key](this.entityRegistry[key], state);
         });
     }
+
+    public abstract click(x: number, y: number): void;
 }

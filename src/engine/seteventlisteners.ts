@@ -26,6 +26,7 @@ export function setEventListeners(canvas: HTMLCanvasElement, stateStack: BaseSta
 
     canvas.addEventListener("contextmenu", function (e: MouseEvent) {
         e.preventDefault();
+        last(stateStack).click(e.offsetX, 720 - e.offsetY);
         last(stateStack).getEntitiesByKey<Entity>("control").forEach(ent=> {
             if (ent.control) {
                 ent.control.x = e.offsetX;

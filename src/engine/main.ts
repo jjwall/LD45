@@ -18,7 +18,11 @@ loadTextures([
     "./data/textures/marine.png",
     "./data/textures/marine_shoot1.png",
     "./data/textures/marine_walk1.png",
-    "./data/textures/marine_walk2.png"
+    "./data/textures/marine_walk2.png",
+    "./data/textures/marker1.png",
+    "./data/textures/marker2.png",
+    "./data/textures/marker3.png",
+    "./data/textures/marker4.png"
 ]).then((textures) => {
     // cache off textures
     Resources.instance.setTextures(textures);
