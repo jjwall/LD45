@@ -15,6 +15,10 @@ loadTextures([
     "./data/textures/enemy.png",
     "./data/textures/gate.png",
     "./data/textures/explosion.png",
+    "./data/textures/marine.png",
+    "./data/textures/marine_shoot1.png",
+    "./data/textures/marine_walk1.png",
+    "./data/textures/marine_walk2.png"
 ]).then((textures) => {
     // cache off textures
     Resources.instance.setTextures(textures);
