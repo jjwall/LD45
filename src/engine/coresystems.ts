@@ -145,6 +145,16 @@ export function followSystem(ents: ReadonlyArray<Entity>) {
     })
 }
 
+export function movementSystem(ents: ReadonlyArray<Entity>) {
+    ents.forEach(ent => {
+        if (ent.control && ent.pos) {
+            const angle = Math.atan2(ent.control.y - ent.pos.loc.y, ent.control.x - ent.pos.loc.x);
+            ent.pos.loc.x += Math.cos(angle) * 2;
+            ent.pos.loc.y += Math.sin(angle) * 2;
+        }
+    });
+}
+
 export function spawnerSystem(ents: ReadonlyArray<Entity>, state: BaseState) {
     ents.forEach(ent => {
         if (ent.spawner) {

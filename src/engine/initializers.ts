@@ -42,8 +42,10 @@ export function initializeAnimation(startingSequence: SequenceTypes, animBlob: A
  * Helper for initializing ControlComponent with starting values.
  * at creation of the object.
  */
-export function initializeControls(): ControlComponent {
+export function initializeControls(xPos: number, yPos: number): ControlComponent {
     return {
+        x: xPos,
+        y: yPos,
         jump: false,
         attack: false,
         attackTimer: 0,

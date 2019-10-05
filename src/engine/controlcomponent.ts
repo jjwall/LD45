@@ -2,6 +2,8 @@
  * Control component.
  */
 export interface ControlComponent {
+    x: number,
+    y: number,
     jump: boolean;
     attack: boolean;
     attackTimer: number;

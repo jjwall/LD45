@@ -1,5 +1,5 @@
 import { initializeAnimation, initializeControls, initializeHitBox, initializeHurtBox, initializeSprite, initializePosition, initializeVelocity, initializeTimer } from "./initializers";
-import { positionSystem, collisionSystem, timerSystem, animationSystem, velocitySystem, followSystem, spawnerSystem } from "./coresystems";
+import { positionSystem, collisionSystem, timerSystem, animationSystem, velocitySystem, followSystem, spawnerSystem, movementSystem } from "./coresystems";
 import { Scene, Camera, Color, WebGLRenderer, OrthographicCamera, Vector2, Vector3 } from "three";
 import { setHurtBoxGraphic, playAudio, setHitBoxGraphic } from "./helpers";
 import { HurtBoxTypes, SequenceTypes } from "./enums";
@@ -56,6 +56,7 @@ export class GameState extends BaseState {
         this.registerSystem(positionSystem);
         this.registerSystem(spawnerSystem);
         this.registerSystem(followSystem);
+        this.registerSystem(movementSystem);
 
         // playAudio("./data/audio/Pale_Blue.mp3", 0.3, true);
 
@@ -63,9 +64,9 @@ export class GameState extends BaseState {
         let player = new Entity();
         player.pos = initializePosition(640, 360, 5);
         player.sprite = initializeSprite("./data/textures/marine.png", this.gameScene, 4);
-        player.control = initializeControls();
-        player.vel = initializeVelocity(.65);
-        player.vel.friction = 0.9;
+        player.control = initializeControls(player.pos.loc.x, player.pos.loc.y);
+        // player.vel = initializeVelocity(.65);
+        // player.vel.friction = 0.9;
         // player.anim = initializeAnimation(SequenceTypes.walk, playerAnim);
         // player.hurtBox = initializeHurtBox(player.sprite, HurtBoxTypes.test, 50, 50, -300, -100);
         player.hurtBox = initializeHurtBox(player.sprite, HurtBoxTypes.player);
