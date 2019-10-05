@@ -4,6 +4,7 @@
 export interface ControlComponent {
     x: number,
     y: number,
+    moving: boolean;
     jump: boolean;
     attack: boolean;
     attackTimer: number;

@@ -46,6 +46,7 @@ export function initializeControls(xPos: number, yPos: number): ControlComponent
     return {
         x: xPos,
         y: yPos,
+        moving: false,
         jump: false,
         attack: false,
         attackTimer: 0,
