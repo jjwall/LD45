@@ -9,62 +9,20 @@ import { Vector3 } from "three";
  */
 export function controlSystem(ents: ReadonlyArray<Entity>){
     ents.forEach(ent => {
-        if (ent.control && ent.vel && ent.pos) {
-            // Left
-            if (ent.control.left) {
-                ent.vel.positional.add(ent.pos.dir.clone().multiplyScalar(.25));
-                // test change seq
-                // ent.anim = changeSequence(SequenceTypes.attack, ent.anim);
-                ent.vel.rotational.z = 0.075;
-            }
-            else if (!ent.control.right) {
-                ent.vel.rotational.z = 0;
-            }
+        if (ent.control && ent.pos) {
+            const v1 = ent.pos.loc.x - ent.control.x;
+            const v2 = ent.pos.loc.y - ent.control.y;
+            const distance = Math.sqrt(v1*v1 + v2*v2);
 
-            // Right
-            if (ent.control.right) {
-                ent.vel.positional.add(ent.pos.dir.clone().multiplyScalar(-.25));
-                // test change seq
-                // ent.anim = changeSequence(SequenceTypes.walk, ent.anim);
-                ent.vel.rotational.z = -0.075;
-            }
-            else if (!ent.control.left) {
-                ent.vel.rotational.z = 0;
-            }
+            if (distance > 5) {
+                const angle = Math.atan2(ent.control.y - ent.pos.loc.y, ent.control.x - ent.pos.loc.x);
+                ent.pos.loc.x += Math.cos(angle) * 2;
+                ent.pos.loc.y += Math.sin(angle) * 2;
 
-            // Up
-            if (ent.control.up) {
-                ent.vel.positional.add(new Vector3(-ent.pos.dir.y, ent.pos.dir.x, ent.pos.dir.z).multiplyScalar(ent.vel.acceleration));
+                ent.control.moving = true;
             }
-
-            // Down
-            // if (ent.control.down) {
-            //     ent.vel.positional.add(new Vector3(ent.pos.dir.y, -ent.pos.dir.x, -ent.pos.dir.z).multiplyScalar(ent.vel.acceleration));
-            // }
-
-            // Space
-            if (ent.control.attack && !ent.control.attacked) {
-                ent.control.attacked = true;
-                let attack = new Entity();
-                // attack.timer = { ticks: 15 };
-                attack.pos.loc = ent.pos.loc;//x: ent.pos.x + 100, y: ent.pos.y + 50, z: 5};
-                // attack.graphic = setHitBoxGraphic(stage, 50, 50);
-                // attack.hitBox = { 
-                //     collidesWith: [HurtBoxTypes.test], 
-                //     height: 50, 
-                //     width: 50, 
-                //     onHit: function() { console.log("hit")
-                // }};
-                //ents.push(attack);
-            }
-
-            if (ent.control.attacked) {
-                ent.control.attackTimer++;
-            }
-
-            if (ent.control.attackTimer > 75) {
-                ent.control.attacked = false;
-                ent.control.attackTimer = 0;
+            else {
+                ent.control.moving = false;
             }
         }
     });

@@ -1,5 +1,5 @@
 import { initializeAnimation, initializeControls, initializeHitBox, initializeHurtBox, initializeSprite, initializePosition, initializeVelocity, initializeTimer } from "./initializers";
-import { positionSystem, collisionSystem, timerSystem, animationSystem, velocitySystem, followSystem, spawnerSystem, movementSystem } from "./coresystems";
+import { positionSystem, collisionSystem, timerSystem, animationSystem, velocitySystem, followSystem, spawnerSystem } from "./coresystems";
 import { Scene, Camera, Color, WebGLRenderer, OrthographicCamera, Vector2, Vector3 } from "three";
 import { setHurtBoxGraphic, playAudio, setHitBoxGraphic } from "./helpers";
 import { HurtBoxTypes, SequenceTypes } from "./enums";
@@ -56,7 +56,7 @@ export class GameState extends BaseState {
         this.registerSystem(positionSystem);
         this.registerSystem(spawnerSystem);
         this.registerSystem(followSystem);
-        this.registerSystem(movementSystem);
+        // this.registerSystem(movementSystem);
 
         // playAudio("./data/audio/Pale_Blue.mp3", 0.3, true);
 
