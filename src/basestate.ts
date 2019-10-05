@@ -34,7 +34,7 @@ export abstract class BaseState {
      * Removes Entity from each Entity list it is registered to.
      * @param ent 
      */
-    protected removeEntity<E>(ent: E) {
+    public removeEntity<E>(ent: E) {
         // Remove entity from global ent list if registered.
         if (this.entityRegistry["global"].indexOf(ent) !== -1) {
             this.entityRegistry["global"].splice(this.entityRegistry["global"].indexOf(ent), 1);

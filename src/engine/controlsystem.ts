@@ -40,6 +40,13 @@ export function controlSystem(ents: ReadonlyArray<Entity>, state: GameState){
                     ent.control.selector.pos.loc.y = ent.pos.loc.y - 20;
                 }
             }
+            else {
+                if (ent.control.selector) {
+                    state.gameScene.remove(ent.control.selector.sprite);
+                    state.removeEntity(ent.control.selector);
+                    ent.control.selector = undefined;
+                }
+            }
         }
     });
 }
