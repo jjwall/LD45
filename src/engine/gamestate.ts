@@ -121,41 +121,41 @@ export class GameState extends BaseState {
         }
         console.log(count);
 
-
-        // this.setUpEnemySpawner(1260, 700, player);
-        // this.setUpEnemySpawner(20, 700, player);
-        // this.setUpEnemySpawner(1260, 20, player);
-        // this.setUpEnemySpawner(20, 20, player);
+        this.setUpEnemySpawner(1260, 700, marine1);
+        this.setUpEnemySpawner(20, 700, marine1);
+        this.setUpEnemySpawner(1260, 20, marine1);
+        this.setUpEnemySpawner(20, 20, marine1);
     }
 
-    // private setUpEnemySpawner(xPos: number, yPos: number, player: Entity) {
-    //     let spawner = new Entity();
+    private setUpEnemySpawner(xPos: number, yPos: number, player: Entity) {
+        let spawner = new Entity();
 
-    //     spawner.spawner = { randomNumber: 750, spawnEntity: (): Entity => {
-    //         let enemy = new Entity();
-    //         enemy.pos = initializePosition(xPos, yPos, 4);
-    //         enemy.vel = initializeVelocity(4);
-    //         enemy.sprite = initializeSprite("./data/textures/enemy.png", this.gameScene, 2);
-    //         enemy.hitBox = initializeHitBox(enemy.sprite, [HurtBoxTypes.player]);
-    //         enemy.hurtBox = initializeHurtBox(enemy.sprite, HurtBoxTypes.enemy);
-    //         enemy.followsEntity = { entityToFollow: player };
-    //         // setHitBoxGraphic(enemy.sprite, enemy.hitBox);
-    //         enemy.hitBox.onHit = () => {
-    //             this.rootComponent.subtractPlayerHealth();
-    //             //this.pushLoseState();
-    //         }
-    //         enemy.hurtBox.onHurt = () => {
-    //             this.removeEntity(enemy);
-    //             this.rootComponent.addScoreFromEnemyKill();
-    //             // Remove Enemy from scene.
-    //             this.gameScene.remove(enemy.sprite);
-    //         }
+        spawner.spawner = { randomNumber: 750, spawnTime: 0, spawnEntity: (): Entity => {
+            let alien = new Entity();
+            alien.pos = initializePosition(xPos, yPos, 4);
+            alien.sprite = initializeSprite("./data/textures/alien1.png", this.gameScene, 4);
+            alien.anim = initializeAnimation(SequenceTypes.walk, alienAnim);
+            // enemy.hitBox = initializeHitBox(enemy.sprite, [HurtBoxTypes.player]);
+            // enemy.hurtBox = initializeHurtBox(enemy.sprite, HurtBoxTypes.enemy);
+            alien.followsEntity = { entityToFollow: player };
+            this.aliens.push(alien);
+            // setHitBoxGraphic(enemy.sprite, enemy.hitBox);
+            // alien.hitBox.onHit = () => {
+            //     this.rootComponent.subtractPlayerHealth();
+            //     //this.pushLoseState();
+            // }
+            // alien.hurtBox.onHurt = () => {
+            //     this.removeEntity(alien);
+            //     this.rootComponent.addScoreFromEnemyKill();
+            //     // Remove Enemy from scene.
+            //     this.gameScene.remove(alien.sprite);
+            // }
 
-    //         return enemy;
-    //     }};
+            return alien;
+        }};
 
-    //     this.registerEntity(spawner);
-    // }
+        this.registerEntity(spawner);
+    }
 
     private screenShake() {
         for (let i = 1; i < 10; i++) {
