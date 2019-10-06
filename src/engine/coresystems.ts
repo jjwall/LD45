@@ -7,6 +7,7 @@ import { Resources } from "../resourcemanager";
 import { BaseState } from "../basestate";
 import { changeSequence } from "./helpers";
 import { SequenceTypes } from "./enums";
+import { initializeTimer } from "./initializers";
 
 /**
  * Rudimentary velocity implementation... will replace directions with
@@ -149,13 +150,17 @@ export function followSystem(ents: ReadonlyArray<Entity>) {
 
 export function spawnerSystem(ents: ReadonlyArray<Entity>, state: BaseState) {
     ents.forEach(ent => {
-        if (ent.spawner) {
-            // update random number somewhere...
-            const randomNum = Math.floor(Math.random() * (ent.spawner.randomNumber - 0 + 1)) + 0;
-
-            if (randomNum === 15 || randomNum === 67) {
+        if (ent.spawner && !ent.timer) {
+            ent.timer = initializeTimer(ent.spawner.spawnTime, () => {
                 state.registerEntity(ent.spawner.spawnEntity());
-            }
+                ent.timer = undefined
+            });
+            // update random number somewhere...
+            // const randomNum = Math.floor(Math.random() * (ent.spawner.randomNumber - 0 + 1)) + 0;
+
+            // if (randomNum === 15 || randomNum === 67) {
+            //     state.registerEntity(ent.spawner.spawnEntity());
+            // }
         }
     });
 }

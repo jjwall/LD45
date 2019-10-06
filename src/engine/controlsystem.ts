@@ -3,9 +3,10 @@ import { changeSequence } from "./helpers";
 import { HurtBoxTypes, SequenceTypes } from "./enums";
 import { Vector3, NearestFilter, MeshBasicMaterial } from "three";
 import { GameState } from "./gamestate";
-import { initializePosition, initializeTimer } from "./initializers";
+import { initializePosition, initializeTimer, initializeControls, initializeAnimation } from "./initializers";
 import { initializeSprite } from "./initializers";
 import { Resources } from "../resourcemanager";
+import { marineAnim } from "../../data/animations/marine";
 
 /**
  * Control system.
@@ -56,6 +57,16 @@ export function controlSystem(ents: ReadonlyArray<Entity>, state: GameState){
                             const newSpriteMap = Resources.instance.getTexture("./data/textures/barracks.png");
                             newSpriteMap.magFilter = NearestFilter;
                             barracks.sprite.material = new MeshBasicMaterial({ map: newSpriteMap, transparent: true });
+                            barracks.spawner = { spawnTime: 500, randomNumber: 0, spawnEntity: (): Entity => {
+                                let marine = new Entity();
+                                marine.pos = initializePosition(barracks.pos.loc.x - 5, barracks.pos.loc.y - 30, 5);
+                                marine.sprite = initializeSprite("./data/textures/marine.png", state.gameScene, 4);
+                                marine.control = initializeControls(marine.pos.loc.x, marine.pos.loc.y);
+                                marine.anim = initializeAnimation(SequenceTypes.idle, marineAnim);
+
+                                return marine;
+                            }}
+
                             ent.timer = undefined;
                         });
                     }

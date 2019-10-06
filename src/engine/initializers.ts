@@ -47,7 +47,7 @@ export function initializeControls(xPos: number, yPos: number): ControlComponent
         x: xPos,
         y: yPos,
         moving: false,
-        selected: true,
+        selected: false,
         selector: undefined,
         animSet: false,
         bKey: false,

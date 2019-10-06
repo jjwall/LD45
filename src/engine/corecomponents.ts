@@ -12,6 +12,7 @@ import { HurtBoxTypes, SequenceTypes } from "./enums";
 export interface SpawnerComponent {
     spawnEntity: () => Entity;
     randomNumber: number;
+    spawnTime: number;
 }
 
 

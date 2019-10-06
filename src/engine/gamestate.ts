@@ -56,7 +56,7 @@ export class GameState extends BaseState {
         this.registerSystem(timerSystem);
         this.registerSystem(positionSystem);
         this.registerSystem(animControlSystem);
-        // this.registerSystem(spawnerSystem);
+        this.registerSystem(spawnerSystem);
         // this.registerSystem(followSystem);
 
         // playAudio("./data/audio/Pale_Blue.mp3", 0.3, true);
@@ -91,34 +91,34 @@ export class GameState extends BaseState {
         // this.setUpEnemySpawner(20, 20, player);
     }
 
-    private setUpEnemySpawner(xPos: number, yPos: number, player: Entity) {
-        let spawner = new Entity();
+    // private setUpEnemySpawner(xPos: number, yPos: number, player: Entity) {
+    //     let spawner = new Entity();
 
-        spawner.spawner = { randomNumber: 750, spawnEntity: (): Entity => {
-            let enemy = new Entity();
-            enemy.pos = initializePosition(xPos, yPos, 4);
-            enemy.vel = initializeVelocity(4);
-            enemy.sprite = initializeSprite("./data/textures/enemy.png", this.gameScene, 2);
-            enemy.hitBox = initializeHitBox(enemy.sprite, [HurtBoxTypes.player]);
-            enemy.hurtBox = initializeHurtBox(enemy.sprite, HurtBoxTypes.enemy);
-            enemy.followsEntity = { entityToFollow: player };
-            // setHitBoxGraphic(enemy.sprite, enemy.hitBox);
-            enemy.hitBox.onHit = () => {
-                this.rootComponent.subtractPlayerHealth();
-                //this.pushLoseState();
-            }
-            enemy.hurtBox.onHurt = () => {
-                this.removeEntity(enemy);
-                this.rootComponent.addScoreFromEnemyKill();
-                // Remove Enemy from scene.
-                this.gameScene.remove(enemy.sprite);
-            }
+    //     spawner.spawner = { randomNumber: 750, spawnEntity: (): Entity => {
+    //         let enemy = new Entity();
+    //         enemy.pos = initializePosition(xPos, yPos, 4);
+    //         enemy.vel = initializeVelocity(4);
+    //         enemy.sprite = initializeSprite("./data/textures/enemy.png", this.gameScene, 2);
+    //         enemy.hitBox = initializeHitBox(enemy.sprite, [HurtBoxTypes.player]);
+    //         enemy.hurtBox = initializeHurtBox(enemy.sprite, HurtBoxTypes.enemy);
+    //         enemy.followsEntity = { entityToFollow: player };
+    //         // setHitBoxGraphic(enemy.sprite, enemy.hitBox);
+    //         enemy.hitBox.onHit = () => {
+    //             this.rootComponent.subtractPlayerHealth();
+    //             //this.pushLoseState();
+    //         }
+    //         enemy.hurtBox.onHurt = () => {
+    //             this.removeEntity(enemy);
+    //             this.rootComponent.addScoreFromEnemyKill();
+    //             // Remove Enemy from scene.
+    //             this.gameScene.remove(enemy.sprite);
+    //         }
 
-            return enemy;
-        }};
+    //         return enemy;
+    //     }};
 
-        this.registerEntity(spawner);
-    }
+    //     this.registerEntity(spawner);
+    // }
 
     private screenShake() {
         for (let i = 1; i < 10; i++) {
