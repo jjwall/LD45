@@ -57,6 +57,7 @@ export function controlSystem(ents: ReadonlyArray<Entity>, state: GameState){
                             const newSpriteMap = Resources.instance.getTexture("./data/textures/barracks.png");
                             newSpriteMap.magFilter = NearestFilter;
                             barracks.sprite.material = new MeshBasicMaterial({ map: newSpriteMap, transparent: true });
+                            state.alienTargets.push(barracks);
                             barracks.spawner = { spawnTime: 500, randomNumber: 0, spawnEntity: (): Entity => {
                                 let marine = new Entity();
                                 marine.pos = initializePosition(barracks.pos.loc.x - 5, barracks.pos.loc.y - 30, 5);
@@ -64,6 +65,7 @@ export function controlSystem(ents: ReadonlyArray<Entity>, state: GameState){
                                 marine.control = initializeControls(marine.pos.loc.x, marine.pos.loc.y);
                                 marine.anim = initializeAnimation(SequenceTypes.idle, marineAnim);
                                 marine.marine = {};
+                                state.alienTargets.push(marine);
 
                                 return marine;
                             }}

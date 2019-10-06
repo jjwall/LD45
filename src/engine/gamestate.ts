@@ -32,6 +32,7 @@ export class GameState extends BaseState {
     public rootWidget: Widget;
     public rootComponent: GameRoot;
     public aliens: Entity[] = [];
+    public alienTargets: Entity[] = [];
     constructor(stateStack: BaseState[]) {
         super(stateStack);
         // Set up game scene.
@@ -61,7 +62,7 @@ export class GameState extends BaseState {
         this.registerSystem(animControlSystem);
         this.registerSystem(spawnerSystem);
         this.registerSystem(marineAttackSystem);
-        // this.registerSystem(followSystem);
+        this.registerSystem(followSystem);
 
         // playAudio("./data/audio/Pale_Blue.mp3", 0.3, true);
 
@@ -78,6 +79,7 @@ export class GameState extends BaseState {
         // player.hurtBox = initializeHurtBox(player.sprite, HurtBoxTypes.test, 50, 50, -300, -100);
         marine1.hurtBox = initializeHurtBox(marine1.sprite, HurtBoxTypes.player);
         // setHurtBoxGraphic(player.sprite, player.hurtBox);
+        this.alienTargets.push(marine1);
         
         this.registerEntity(marine1);
 
@@ -95,6 +97,7 @@ export class GameState extends BaseState {
         alien1.pos = initializePosition(700, 250, 5);
         alien1.sprite = initializeSprite("./data/textures/alien1.png", this.gameScene, 4);
         alien1.anim = initializeAnimation(SequenceTypes.walk, alienAnim);
+        alien1.followsEntity = { entityToFollow: marine1 };
         this.aliens.push(alien1);
         
         this.registerEntity(alien1);

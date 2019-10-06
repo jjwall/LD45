@@ -132,19 +132,11 @@ export function timerSystem(ents: ReadonlyArray<Entity>) {
 export function followSystem(ents: ReadonlyArray<Entity>) {
     ents.forEach(ent => {
         if (ent.followsEntity) {
-            // const followedEntY = ent.followsEntity.entityToFollow.pos.loc.y;
-            // const followedEntX = ent.followsEntity.entityToFollow.pos.loc.x;
-            // const followingEntY = ent.pos.loc.y;
-            // const followingEntX = ent.pos.loc.x;
+            const speed = 1.75;
             const angle = Math.atan2(ent.followsEntity.entityToFollow.pos.loc.y - ent.pos.loc.y, ent.followsEntity.entityToFollow.pos.loc.x - ent.pos.loc.x);
-            // const v1 = followingEntX - followedEntX;
-            // const v2 = followingEntY - followedEntY;
-            // const distance = Math.sqrt(v1*v1 + v2*v2);
-                // if (this.vel < this.maxVel) {
-                    // this.vel += this.accl;
-                // }if (distance > 10) {
-            ent.pos.loc.x += Math.cos(angle) * ent.vel.acceleration;
-            ent.pos.loc.y += Math.sin(angle) * ent.vel.acceleration;
+
+            ent.pos.loc.x += Math.cos(angle) * speed;
+            ent.pos.loc.y += Math.sin(angle) * speed;
         }
     })
 }
