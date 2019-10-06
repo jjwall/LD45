@@ -25,6 +25,8 @@ loadTextures([
     "./data/textures/marker4.png",
     "./data/textures/selector.png",
     "./data/textures/worker.png",
+    "./data/textures/worker_walk1.png",
+    "./data/textures/worker_walk2.png",
     "./data/textures/barracks.png",
     "./data/textures/barracks_wireframe.png"
 ]).then((textures) => {
