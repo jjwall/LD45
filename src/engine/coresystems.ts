@@ -169,22 +169,22 @@ export function spawnerSystem(ents: ReadonlyArray<Entity>, state: BaseState) {
 export function animControlSystem(ents: ReadonlyArray<Entity>, state: BaseState) {
     ents.forEach(ent => {
         if (ent.control && ent.anim) {
-            if (ent.control.moving && !ent.control.animSet) {
+            if (ent.control.moving && !ent.control.movingAnimSet) {
                 ent.anim = changeSequence(SequenceTypes.walk, ent.anim);
-                ent.control.animSet = true;
+                ent.control.movingAnimSet = true;
             }
-            else if (!ent.control.moving) {
+            else if (!ent.control.moving && !ent.control.attack) {
                 ent.anim = changeSequence(SequenceTypes.idle, ent.anim);
-                ent.control.animSet = false;
+                ent.control.movingAnimSet = false;
             }
 
-            if (ent.control.attack && !ent.control.animSet) {
+            if (ent.control.attack && !ent.control.attackingAnimSet) {
                 ent.anim = changeSequence(SequenceTypes.attack, ent.anim);
-                ent.control.animSet = true;
+                ent.control.attackingAnimSet = true;
             }
-            else if (!ent.control.moving) {
+            else if (!ent.control.attack && !ent.control.moving) {
                 ent.anim = changeSequence(SequenceTypes.idle, ent.anim);
-                ent.control.animSet = false;
+                ent.control.attackingAnimSet = false;
             }
         }
     })
@@ -201,6 +201,8 @@ export function marineAttackSystem(ents: ReadonlyArray<Entity>, state: GameState
                 if (distance < 150) {
                     console.log("shoot!!!");
                     ent.control.attack = true;
+                    // ent.control.x = ent.pos.loc.x;
+                    // ent.control.y = ent.pos.loc.y;
                 }
                 else {
                     ent.control.attack = false;

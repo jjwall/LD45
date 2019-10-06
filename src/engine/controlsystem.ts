@@ -63,6 +63,7 @@ export function controlSystem(ents: ReadonlyArray<Entity>, state: GameState){
                                 marine.sprite = initializeSprite("./data/textures/marine.png", state.gameScene, 4);
                                 marine.control = initializeControls(marine.pos.loc.x, marine.pos.loc.y);
                                 marine.anim = initializeAnimation(SequenceTypes.idle, marineAnim);
+                                marine.marine = {};
 
                                 return marine;
                             }}

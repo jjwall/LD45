@@ -11,8 +11,13 @@ export const marineAnim: AnimationSchema = {
     ],
     [SequenceTypes.attack]: [
         {
-            ticks: 0,
+            ticks: 3,
             texture: "./data/textures/marine_shoot1.png",
+            nextFrame: 1
+       },
+        {
+            ticks: 3,
+            texture: "./data/textures/marine_shoot2.png",
             nextFrame: 0
        },
     ],

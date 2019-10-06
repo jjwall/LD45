@@ -9,7 +9,8 @@ export interface ControlComponent {
     moving: boolean;
     selected: boolean;
     selector: Entity;
-    animSet: boolean;
+    movingAnimSet: boolean;
+    attackingAnimSet: boolean;
     bKey: boolean;
     dKey: boolean;
     // ignore below

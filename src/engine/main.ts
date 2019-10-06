@@ -17,6 +17,7 @@ loadTextures([
     "./data/textures/explosion.png",
     "./data/textures/marine.png",
     "./data/textures/marine_shoot1.png",
+    "./data/textures/marine_shoot2.png",
     "./data/textures/marine_walk1.png",
     "./data/textures/marine_walk2.png",
     "./data/textures/marker1.png",
