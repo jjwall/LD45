@@ -99,6 +99,26 @@ export class GameState extends BaseState {
         
         this.registerEntity(alien1);
 
+        // Set up background elements (10 wide, 6 tall);
+        let dirtX = 64;
+        let dirtY = 64;
+        let count = 0; // temp
+        
+        for (let r = 0; r < 10; r++) {
+            for (let c = 0; c < 6; c++) {
+                let dirt = new Entity();
+                dirt.pos = initializePosition(dirtX, dirtY, 1);
+                dirt.sprite = initializeSprite("./data/textures/dirt.png", this.gameScene, 4);
+                this.registerEntity(dirt);
+                dirtY += 128;
+                count++
+            }
+            dirtY = 64;
+            dirtX += 128;
+        }
+        console.log(count);
+
+
         // this.setUpEnemySpawner(1260, 700, player);
         // this.setUpEnemySpawner(20, 700, player);
         // this.setUpEnemySpawner(1260, 20, player);
