@@ -1,10 +1,11 @@
 import { Entity } from "./entity";
 import { changeSequence } from "./helpers";
 import { HurtBoxTypes, SequenceTypes } from "./enums";
-import { Vector3 } from "three";
+import { Vector3, NearestFilter, MeshBasicMaterial } from "three";
 import { GameState } from "./gamestate";
-import { initializePosition } from "./initializers";
+import { initializePosition, initializeTimer } from "./initializers";
 import { initializeSprite } from "./initializers";
+import { Resources } from "../resourcemanager";
 
 /**
  * Control system.
@@ -13,6 +14,7 @@ import { initializeSprite } from "./initializers";
 export function controlSystem(ents: ReadonlyArray<Entity>, state: GameState){
     ents.forEach(ent => {
         if (ent.control && ent.pos) {
+            // movement
             const v1 = ent.pos.loc.x - ent.control.x;
             const v2 = ent.pos.loc.y - ent.control.y;
             const distance = Math.sqrt(v1*v1 + v2*v2);
@@ -28,6 +30,7 @@ export function controlSystem(ents: ReadonlyArray<Entity>, state: GameState){
                 ent.control.moving = false;
             }
 
+            // selection
             if (ent.control.selected) {
                 if (ent.control.selector == undefined) {
                     ent.control.selector = new Entity();
@@ -38,6 +41,24 @@ export function controlSystem(ents: ReadonlyArray<Entity>, state: GameState){
                 else {
                     ent.control.selector.pos.loc.x = ent.pos.loc.x + 4;
                     ent.control.selector.pos.loc.y = ent.pos.loc.y - 20;
+                }
+
+                // worker hotkeys
+                if (ent.worker) {
+                    // B - Barracks
+                    if (ent.control.bKey && !ent.timer) {
+                        let barracks = new Entity();
+                        barracks.pos = initializePosition(ent.pos.loc.x, ent.pos.loc.y, 3);
+                        barracks.sprite = initializeSprite("./data/textures/barracks_wireframe.png", state.gameScene, 4);
+                        state.registerEntity(barracks);
+
+                        ent.timer = initializeTimer(300, () => {
+                            const newSpriteMap = Resources.instance.getTexture("./data/textures/barracks.png");
+                            newSpriteMap.magFilter = NearestFilter;
+                            barracks.sprite.material = new MeshBasicMaterial({ map: newSpriteMap, transparent: true });
+                            ent.timer = undefined;
+                        });
+                    }
                 }
             }
             else {

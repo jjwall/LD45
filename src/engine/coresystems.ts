@@ -5,6 +5,8 @@ import {
 import { Entity } from "./entity";
 import { Resources } from "../resourcemanager";
 import { BaseState } from "../basestate";
+import { changeSequence } from "./helpers";
+import { SequenceTypes } from "./enums";
 
 /**
  * Rudimentary velocity implementation... will replace directions with
@@ -156,4 +158,19 @@ export function spawnerSystem(ents: ReadonlyArray<Entity>, state: BaseState) {
             }
         }
     });
+}
+
+export function animControlSystem(ents: ReadonlyArray<Entity>, state: BaseState) {
+    ents.forEach(ent => {
+        if (ent.control && ent.anim) {
+            if (ent.control.moving && !ent.control.animSet) {
+                ent.anim = changeSequence(SequenceTypes.walk, ent.anim);
+                ent.control.animSet = true;
+            }
+            else if (!ent.control.moving) {
+                ent.anim = changeSequence(SequenceTypes.idle, ent.anim);
+                ent.control.animSet = false;
+            }
+        }
+    })
 }

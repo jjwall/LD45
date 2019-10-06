@@ -87,3 +87,11 @@ export interface TimerComponent {
     ticks: number;
     ontimeout: () => void;
 }
+
+export interface WorkerComponent {
+
+}
+
+export interface MarineComponent {
+    
+}

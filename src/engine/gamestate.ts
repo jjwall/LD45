@@ -1,11 +1,12 @@
 import { initializeAnimation, initializeControls, initializeHitBox, initializeHurtBox, initializeSprite, initializePosition, initializeVelocity, initializeTimer } from "./initializers";
-import { positionSystem, collisionSystem, timerSystem, animationSystem, velocitySystem, followSystem, spawnerSystem } from "./coresystems";
+import { positionSystem, collisionSystem, timerSystem, animationSystem, velocitySystem, followSystem, spawnerSystem, animControlSystem } from "./coresystems";
 import { Scene, Camera, Color, WebGLRenderer, OrthographicCamera, Vector2, Vector3 } from "three";
 import { setHurtBoxGraphic, playAudio, setHitBoxGraphic } from "./helpers";
 import { HurtBoxTypes, SequenceTypes } from "./enums";
 import { controlSystem } from "./controlsystem";
 import { Entity } from "./entity";
 import { markerAnim } from "../../data/animations/marker";
+import { marineAnim } from "../../data/animations/marine";
 import { BaseState } from "../basestate";
 import { Widget } from "../ui/widget";
 import { createWidget } from "../ui/widget";
@@ -54,6 +55,7 @@ export class GameState extends BaseState {
         this.registerSystem(animationSystem);
         this.registerSystem(timerSystem);
         this.registerSystem(positionSystem);
+        this.registerSystem(animControlSystem);
         // this.registerSystem(spawnerSystem);
         // this.registerSystem(followSystem);
 
@@ -64,6 +66,7 @@ export class GameState extends BaseState {
         marine1.pos = initializePosition(640, 360, 5);
         marine1.sprite = initializeSprite("./data/textures/marine.png", this.gameScene, 4);
         marine1.control = initializeControls(marine1.pos.loc.x, marine1.pos.loc.y);
+        marine1.anim = initializeAnimation(SequenceTypes.idle, marineAnim);
         // player.vel = initializeVelocity(.65);
         // player.vel.friction = 0.9;
         // player.anim = initializeAnimation(SequenceTypes.walk, playerAnim);
@@ -73,13 +76,14 @@ export class GameState extends BaseState {
         
         this.registerEntity(marine1);
 
-        let marine2 = new Entity();
-        marine2.pos = initializePosition(740, 360, 5);
-        marine2.sprite = initializeSprite("./data/textures/marine.png", this.gameScene, 4);
-        marine2.control = initializeControls(marine2.pos.loc.x, marine2.pos.loc.y);
+        let worker1 = new Entity();
+        worker1.pos = initializePosition(740, 360, 5);
+        worker1.sprite = initializeSprite("./data/textures/worker.png", this.gameScene, 4);
+        worker1.control = initializeControls(worker1.pos.loc.x, worker1.pos.loc.y);
+        worker1.worker = {};
         // marine2.hurtBox = initializeHurtBox(marine1.sprite, HurtBoxTypes.player);
         
-        this.registerEntity(marine2);
+        this.registerEntity(worker1);
 
         // this.setUpEnemySpawner(1260, 700, player);
         // this.setUpEnemySpawner(20, 700, player);

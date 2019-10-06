@@ -31,13 +31,12 @@ export function setEventListeners(canvas: HTMLCanvasElement, stateStack: BaseSta
                 {
                     if (!selected)
                         ent.control.selected = true;
-                        
+
                     selected = true;
                 }
                 else {
                     ent.control.selected = false;
                 }
-                console.log(ent.control.selected);
             }
         });
     });
@@ -105,6 +104,15 @@ export function setEventListeners(canvas: HTMLCanvasElement, stateStack: BaseSta
                 }
             });
         }
+
+        // B
+        if (e.keyCode === 66) {
+            last(stateStack).getEntitiesByKey<Entity>("control").forEach(ent=> {
+                if (ent.control) {
+                    ent.control.bKey = true;
+                }
+            });
+        }
     }
 
     window.onkeyup = function(e) {
@@ -149,6 +157,15 @@ export function setEventListeners(canvas: HTMLCanvasElement, stateStack: BaseSta
             last(stateStack).getEntitiesByKey<Entity>("control").forEach(ent=> {
                 if (ent.control) {
                     ent.control.attack = false;
+                }
+            });
+        }
+
+        // B
+        if (e.keyCode === 66) {
+            last(stateStack).getEntitiesByKey<Entity>("control").forEach(ent=> {
+                if (ent.control) {
+                    ent.control.bKey = false;
                 }
             });
         }

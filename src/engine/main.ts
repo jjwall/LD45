@@ -23,7 +23,10 @@ loadTextures([
     "./data/textures/marker2.png",
     "./data/textures/marker3.png",
     "./data/textures/marker4.png",
-    "./data/textures/selector.png"
+    "./data/textures/selector.png",
+    "./data/textures/worker.png",
+    "./data/textures/barracks.png",
+    "./data/textures/barracks_wireframe.png"
 ]).then((textures) => {
     // cache off textures
     Resources.instance.setTextures(textures);
