@@ -14,6 +14,7 @@ import { layoutWidget } from "../ui/layoutwidget";
 import { renderGameUi, GameRoot } from "./rootgameui";
 import { LoseState } from "./losestate";
 import { workerAnim } from "../../data/animations/worker";
+import { alienAnim } from "../../data/animations/alien";
 
 // TODO: (done) Add scoring and health HP UI
 // TODO: Make better assets
@@ -84,8 +85,15 @@ export class GameState extends BaseState {
         worker1.anim = initializeAnimation(SequenceTypes.idle, workerAnim);
         worker1.worker = {};
         // marine2.hurtBox = initializeHurtBox(marine1.sprite, HurtBoxTypes.player);
-        
+
         this.registerEntity(worker1);
+
+        let alien1 = new Entity();
+        alien1.pos = initializePosition(700, 250, 5);
+        alien1.sprite = initializeSprite("./data/textures/alien1.png", this.gameScene, 4);
+        alien1.anim = initializeAnimation(SequenceTypes.walk, alienAnim);
+        
+        this.registerEntity(alien1);
 
         // this.setUpEnemySpawner(1260, 700, player);
         // this.setUpEnemySpawner(20, 700, player);

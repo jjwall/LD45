@@ -28,7 +28,15 @@ loadTextures([
     "./data/textures/worker_walk1.png",
     "./data/textures/worker_walk2.png",
     "./data/textures/barracks.png",
-    "./data/textures/barracks_wireframe.png"
+    "./data/textures/barracks_wireframe.png",
+    "./data/textures/alien1.png",
+    "./data/textures/alien2.png",
+    "./data/textures/alien3.png",
+    "./data/textures/alien4.png",
+    "./data/textures/alien5.png",
+    "./data/textures/alien6.png",
+    "./data/textures/alien7.png",
+    "./data/textures/alien8.png"
 ]).then((textures) => {
     // cache off textures
     Resources.instance.setTextures(textures);
