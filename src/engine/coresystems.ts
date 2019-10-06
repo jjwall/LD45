@@ -8,6 +8,7 @@ import { BaseState } from "../basestate";
 import { changeSequence } from "./helpers";
 import { SequenceTypes } from "./enums";
 import { initializeTimer } from "./initializers";
+import { GameState } from "./gamestate";
 
 /**
  * Rudimentary velocity implementation... will replace directions with
@@ -176,6 +177,36 @@ export function animControlSystem(ents: ReadonlyArray<Entity>, state: BaseState)
                 ent.anim = changeSequence(SequenceTypes.idle, ent.anim);
                 ent.control.animSet = false;
             }
+
+            if (ent.control.attack && !ent.control.animSet) {
+                ent.anim = changeSequence(SequenceTypes.attack, ent.anim);
+                ent.control.animSet = true;
+            }
+            else if (!ent.control.moving) {
+                ent.anim = changeSequence(SequenceTypes.idle, ent.anim);
+                ent.control.animSet = false;
+            }
         }
     })
+}
+
+export function marineAttackSystem(ents: ReadonlyArray<Entity>, state: GameState) {
+    ents.forEach(ent => {
+        if (ent.marine) {
+            state.aliens.forEach(alien => {
+                const v1 = ent.pos.loc.x - alien.pos.loc.x;
+                const v2 = ent.pos.loc.y - alien.pos.loc.y;
+                const distance = Math.sqrt(v1*v1 + v2*v2);
+
+                if (distance < 150) {
+                    console.log("shoot!!!");
+                    ent.control.attack = true;
+                }
+                else {
+                    ent.control.attack = false;
+                }
+
+            });
+        }
+    });
 }

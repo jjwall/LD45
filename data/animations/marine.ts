@@ -9,6 +9,13 @@ export const marineAnim: AnimationSchema = {
             nextFrame: 0
        },
     ],
+    [SequenceTypes.attack]: [
+        {
+            ticks: 0,
+            texture: "./data/textures/marine_shoot1.png",
+            nextFrame: 0
+       },
+    ],
     [SequenceTypes.walk]: [
         {
             ticks: 10,
@@ -20,5 +27,5 @@ export const marineAnim: AnimationSchema = {
             texture: "./data/textures/marine_walk2.png",
             nextFrame: 0
         }
-    ]
+    ],
 }

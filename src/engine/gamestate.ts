@@ -1,5 +1,5 @@
 import { initializeAnimation, initializeControls, initializeHitBox, initializeHurtBox, initializeSprite, initializePosition, initializeVelocity, initializeTimer } from "./initializers";
-import { positionSystem, collisionSystem, timerSystem, animationSystem, velocitySystem, followSystem, spawnerSystem, animControlSystem } from "./coresystems";
+import { positionSystem, collisionSystem, timerSystem, animationSystem, velocitySystem, followSystem, spawnerSystem, animControlSystem, marineAttackSystem } from "./coresystems";
 import { Scene, Camera, Color, WebGLRenderer, OrthographicCamera, Vector2, Vector3 } from "three";
 import { setHurtBoxGraphic, playAudio, setHitBoxGraphic } from "./helpers";
 import { HurtBoxTypes, SequenceTypes } from "./enums";
@@ -31,6 +31,7 @@ export class GameState extends BaseState {
     public uiCamera: Camera;
     public rootWidget: Widget;
     public rootComponent: GameRoot;
+    public aliens: Entity[] = [];
     constructor(stateStack: BaseState[]) {
         super(stateStack);
         // Set up game scene.
@@ -59,6 +60,7 @@ export class GameState extends BaseState {
         this.registerSystem(positionSystem);
         this.registerSystem(animControlSystem);
         this.registerSystem(spawnerSystem);
+        this.registerSystem(marineAttackSystem);
         // this.registerSystem(followSystem);
 
         // playAudio("./data/audio/Pale_Blue.mp3", 0.3, true);
@@ -69,6 +71,7 @@ export class GameState extends BaseState {
         marine1.sprite = initializeSprite("./data/textures/marine.png", this.gameScene, 4);
         marine1.control = initializeControls(marine1.pos.loc.x, marine1.pos.loc.y);
         marine1.anim = initializeAnimation(SequenceTypes.idle, marineAnim);
+        marine1.marine = {};
         // player.vel = initializeVelocity(.65);
         // player.vel.friction = 0.9;
         // player.anim = initializeAnimation(SequenceTypes.walk, playerAnim);
@@ -92,6 +95,7 @@ export class GameState extends BaseState {
         alien1.pos = initializePosition(700, 250, 5);
         alien1.sprite = initializeSprite("./data/textures/alien1.png", this.gameScene, 4);
         alien1.anim = initializeAnimation(SequenceTypes.walk, alienAnim);
+        this.aliens.push(alien1);
         
         this.registerEntity(alien1);
 
