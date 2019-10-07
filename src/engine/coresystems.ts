@@ -236,8 +236,8 @@ export function marineAttackSystem(ents: ReadonlyArray<Entity>, state: GameState
                             }
                             state.gameScene.remove(ent.marine.target.targeted.sprite);
                             state.removeEntity(ent.marine.target.targeted);
-                            // state.gameScene.remove(ent.marine.target.sprite);
-                            // state.removeEntity(ent.marine.target);
+                            state.gameScene.remove(ent.marine.target.sprite);
+                            state.removeEntity(ent.marine.target);
                             ent.marine.target.targeted = undefined;
                             ent.marine.target = undefined;
                             ent.control.attack = false;
@@ -268,14 +268,15 @@ export function marineAttackSystem(ents: ReadonlyArray<Entity>, state: GameState
 
                         if (distance < 150) {
                             // console.log("shoot!!!");
-                            marineHasTarget = true;
-                            ent.control.attack = true;
-                            ent.marine.target = alien;
-
-                            alien.targeted = new Entity();
-                            alien.targeted.pos = initializePosition(alien.pos.loc.x + 3, alien.pos.loc.y - 20, 4);
-                            alien.targeted.sprite = initializeSprite("./data/textures/selector.png", state.gameScene, 7);
-                            state.registerEntity(alien.targeted);
+                            if (!alien.targeted) {
+                                marineHasTarget = true;
+                                ent.control.attack = true;
+                                ent.marine.target = alien;
+                                alien.targeted = new Entity();
+                                alien.targeted.pos = initializePosition(alien.pos.loc.x + 3, alien.pos.loc.y - 20, 4);
+                                alien.targeted.sprite = initializeSprite("./data/textures/target.png", state.gameScene, 7);
+                                state.registerEntity(alien.targeted);
+                            }
                         }
                         else {
                             ent.control.attack = false;

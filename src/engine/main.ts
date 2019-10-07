@@ -39,6 +39,7 @@ loadTextures([
     "./data/textures/alien7.png",
     "./data/textures/alien8.png",
     "./data/textures/dirt.png",
+    "./data/textures/target.png",
 ]).then((textures) => {
     // cache off textures
     Resources.instance.setTextures(textures);
