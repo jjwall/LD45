@@ -22,4 +22,5 @@ export class Entity {
      public worker: WorkerComponent;
      public marine: MarineComponent;
      public hit: HitPointsComponent;
+     public targeted: Entity;
 }

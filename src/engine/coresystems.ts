@@ -7,7 +7,7 @@ import { Resources } from "../resourcemanager";
 import { BaseState } from "../basestate";
 import { changeSequence } from "./helpers";
 import { SequenceTypes } from "./enums";
-import { initializeTimer } from "./initializers";
+import { initializeTimer, initializePosition, initializeSprite } from "./initializers";
 import { GameState } from "./gamestate";
 import { emit } from "cluster";
 
@@ -213,18 +213,48 @@ export function marineAttackSystem(ents: ReadonlyArray<Entity>, state: GameState
                 const v2 = ent.pos.loc.y - ent.marine.target.pos.loc.y;
                 const distance = Math.sqrt(v1*v1 + v2*v2);
 
-                if (distance < 150) {
-                    if (!ent.control.moving) {
-                        console.log("shoot!!!");
-                        ent.control.attack = true;
+                if (distance < 150 && !ent.control.moving) {
+                    console.log("shoot!!!");
+                    if (ent.marine.target) {
                         ent.marine.target.hit.points--;
+                        ent.control.attack = true;
+
+                        if (ent.marine.target.targeted) {
+                            ent.marine.target.targeted.pos.loc.x = ent.marine.target.pos.loc.x;
+                            ent.marine.target.targeted.pos.loc.y = ent.marine.target.pos.loc.y;
+                        }
+                        if (ent.marine.target.targeted) {
+                            ent.marine.target.targeted.pos.loc.x = ent.marine.target.pos.loc.x;
+                            ent.marine.target.targeted.pos.loc.y = ent.marine.target.pos.loc.y;
+                        }
+
+                        if (ent.marine.target.hit.points <= 0) {
+                            if (ent.marine.target.targeted) {
+                            let index = state.aliens.indexOf(ent.marine.target);
+                            if (index > -1) {
+                                state.aliens.splice(index, 1);
+                            }
+                            state.gameScene.remove(ent.marine.target.targeted.sprite);
+                            state.removeEntity(ent.marine.target.targeted);
+                            // state.gameScene.remove(ent.marine.target.sprite);
+                            // state.removeEntity(ent.marine.target);
+                            ent.marine.target.targeted = undefined;
+                            ent.marine.target = undefined;
+                            ent.control.attack = false;
+                            }
+                        }
                     }
                     // ent.control.x = ent.pos.loc.x;
                     // ent.control.y = ent.pos.loc.y;
                 }
-                else {
-                    ent.control.attack = false;
-                    ent.marine.target = undefined;
+                else if (ent.marine.target) {
+                    if (ent.marine.target.targeted) {
+                        state.gameScene.remove(ent.marine.target.targeted.sprite);
+                        state.removeEntity(ent.marine.target.targeted);
+                        ent.marine.target.targeted = undefined;
+                        ent.control.attack = false;
+                        ent.marine.target = undefined;
+                    }
                 }
 
             }
@@ -241,8 +271,11 @@ export function marineAttackSystem(ents: ReadonlyArray<Entity>, state: GameState
                             marineHasTarget = true;
                             ent.control.attack = true;
                             ent.marine.target = alien;
-                            // ent.control.x = ent.pos.loc.x;
-                            // ent.control.y = ent.pos.loc.y;
+
+                            alien.targeted = new Entity();
+                            alien.targeted.pos = initializePosition(alien.pos.loc.x + 3, alien.pos.loc.y - 20, 4);
+                            alien.targeted.sprite = initializeSprite("./data/textures/selector.png", state.gameScene, 7);
+                            state.registerEntity(alien.targeted);
                         }
                         else {
                             ent.control.attack = false;
@@ -258,6 +291,12 @@ export function deathSystem(ents: ReadonlyArray<Entity>, state: GameState) {
     ents.forEach(ent => {
         if (ent.hit && ent.sprite) {
             if (ent.hit.points <= 0) {
+                if (ent.targeted) {
+                    state.gameScene.remove(ent.targeted.sprite);
+                    state.removeEntity(ent.targeted);
+                    // ent.targeted = undefined;
+                }
+
                 state.gameScene.remove(ent.sprite);
                 state.removeEntity(ent);
             }
