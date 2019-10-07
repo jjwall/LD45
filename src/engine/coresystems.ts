@@ -5,7 +5,7 @@ import {
 import { Entity } from "./entity";
 import { Resources } from "../resourcemanager";
 import { BaseState } from "../basestate";
-import { changeSequence } from "./helpers";
+import { changeSequence, playAudio } from "./helpers";
 import { SequenceTypes } from "./enums";
 import { initializeTimer, initializePosition, initializeSprite } from "./initializers";
 import { GameState } from "./gamestate";
@@ -163,6 +163,7 @@ export function spawnerSystem(ents: ReadonlyArray<Entity>, state: BaseState) {
             if (!ent.timer && ent.spawner.randomNumber === 0) {
                 ent.timer = initializeTimer(ent.spawner.spawnTime, () => {
                     state.registerEntity(ent.spawner.spawnEntity());
+                    playAudio("./data/audio/marine_spawn.wav", 0.5);
                     ent.timer = undefined
                 });
             }
@@ -235,6 +236,7 @@ export function marineAttackSystem(ents: ReadonlyArray<Entity>, state: GameState
                     if (ent.marine.target) {
                         ent.marine.target.hit.points--;
                         ent.control.attack = true;
+                        playAudio("./data/audio/shoot1.wav", 0.5);
                         state.rootComponent.addScoreFromEnemyHurt();
 
                         if (ent.marine.target.targeted) {

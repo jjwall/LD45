@@ -182,8 +182,7 @@ export class GameState extends BaseState {
             this.aliens.push(alien);
             // setHitBoxGraphic(enemy.sprite, enemy.hitBox);
             // alien.hitBox.onHit = () => {
-            //     this.rootComponent.subtractPlayerHealth();
-            //     //this.pushLoseState();
+            //     playAudio("./data/audio/alien_hurt.wav", 0.5);
             // }
             // alien.hurtBox.onHurt = () => {
             //     this.removeEntity(alien);

@@ -1,5 +1,5 @@
 import { Entity } from "./entity";
-import { changeSequence } from "./helpers";
+import { changeSequence, playAudio } from "./helpers";
 import { HurtBoxTypes, SequenceTypes } from "./enums";
 import { Vector3, NearestFilter, MeshBasicMaterial } from "three";
 import { GameState } from "./gamestate";
@@ -52,6 +52,7 @@ export function controlSystem(ents: ReadonlyArray<Entity>, state: GameState){
                         barracks.pos = initializePosition(ent.pos.loc.x, ent.pos.loc.y, 3);
                         barracks.sprite = initializeSprite("./data/textures/barracks_wireframe.png", state.gameScene, 4);
                         state.registerEntity(barracks);
+                        playAudio("./data/audio/place_barracks.wav", 0.3);
 
                         ent.timer = initializeTimer(300, () => {
                             const newSpriteMap = Resources.instance.getTexture("./data/textures/barracks.png");
@@ -60,6 +61,7 @@ export function controlSystem(ents: ReadonlyArray<Entity>, state: GameState){
                             barracks.hurtBox = initializeHurtBox(barracks.sprite, HurtBoxTypes.barracks);
                             barracks.hit = { points: 300 };
                             state.rootComponent.addScoreFromBarracks();
+                            playAudio("./data/audio/barracks_finish.wav", 0.3);
                             barracks.hurtBox.onHurt = () => {
                                 barracks.hit.points--;
                                 if (barracks.hit.points <= 0) {

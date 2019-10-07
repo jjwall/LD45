@@ -51,7 +51,13 @@ loadTextures([
         Resources.instance.setFonts(fonts);
 
         loadAudioElements([
-            "./data/audio/Pale_Blue.mp3"
+            "./data/audio/Pale_Blue.mp3",
+            "./data/audio/alien_hurt.wav",
+            "./data/audio/barracks_finish.wav",
+            "./data/audio/place_barracks.wav",
+            "./data/audio/shoot.wav",
+            "./data/audio/shoot1.wav",
+            "./data/audio/marine_spawn.wav"
         ]).then((audioElements) => {
             // cache off audio elements
             Resources.instance.setAudioElements(audioElements);
