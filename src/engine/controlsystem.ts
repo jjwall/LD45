@@ -61,6 +61,12 @@ export function controlSystem(ents: ReadonlyArray<Entity>, state: GameState){
                             barracks.hit = { points: 300 };
                             barracks.hurtBox.onHurt = () => {
                                 barracks.hit.points--;
+                                if (barracks.hit.points <= 0) {
+                                    let index = state.alienTargets.indexOf(barracks);
+                                    if (index > -1) {
+                                        state.alienTargets.splice(index, 1);
+                                    }
+                                }
                             }
                             state.alienTargets.push(barracks);
                             barracks.spawner = { spawnTime: 500, randomNumber: 0, spawnEntity: (): Entity => {
@@ -76,12 +82,18 @@ export function controlSystem(ents: ReadonlyArray<Entity>, state: GameState){
                                     marine.hit.points--;
                                     if (marine.hit.points <= 0) {
                                         if (marine.marine.target) {
-                                            this.gameScene.remove(marine.marine.target.targeted.sprite);
-                                            this.removeEntity(marine.marine.target.targeted);
+                                            if (marine.marine.target.targeted) {
+                                                state.gameScene.remove(marine.marine.target.targeted.sprite);
+                                                state.removeEntity(marine.marine.target.targeted);
+                                            }
                                         }
                                         if (marine.control.selected) {
-                                            this.gameScene.remove(marine.control.selector.sprite);
-                                            this.removeEntity(marine.control.selector);
+                                            state.gameScene.remove(marine.control.selector.sprite);
+                                            state.removeEntity(marine.control.selector);
+                                        }
+                                        let index = state.alienTargets.indexOf(marine);
+                                        if (index > -1) {
+                                            state.alienTargets.splice(index, 1);
                                         }
                                     }
                                 }

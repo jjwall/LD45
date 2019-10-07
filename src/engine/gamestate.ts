@@ -93,6 +93,10 @@ export class GameState extends BaseState {
                     this.gameScene.remove(marine1.control.selector.sprite);
                     this.removeEntity(marine1.control.selector);
                 }
+                let index = this.alienTargets.indexOf(marine1);
+                if (index > -1) {
+                    this.alienTargets.splice(index, 1);
+                }
             }
         }
         this.alienTargets.push(marine1);

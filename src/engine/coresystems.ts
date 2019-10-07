@@ -130,7 +130,7 @@ export function timerSystem(ents: ReadonlyArray<Entity>) {
     });
 }
 
-export function followSystem(ents: ReadonlyArray<Entity>) {
+export function followSystem(ents: ReadonlyArray<Entity>, state: GameState) {
     ents.forEach(ent => {
         if (ent.followsEntity) {
             const speed = 1.75;
@@ -138,6 +138,20 @@ export function followSystem(ents: ReadonlyArray<Entity>) {
 
             ent.pos.loc.x += Math.cos(angle) * speed;
             ent.pos.loc.y += Math.sin(angle) * speed;
+
+            if (state.alienTargets.length > 0) {
+                let index = state.alienTargets.indexOf(ent.followsEntity.entityToFollow);
+                if (index > -1) {
+                    // array.splice(index, 1);
+                }
+                else {
+                    // find new ent to follow
+                    ent.followsEntity = { entityToFollow: state.alienTargets[Math.floor(Math.random()*state.alienTargets.length)] };
+                }
+            }
+            else {
+                console.log("game over!");
+            }
         }
     })
 }
