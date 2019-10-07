@@ -9,6 +9,7 @@ import { changeSequence } from "./helpers";
 import { SequenceTypes } from "./enums";
 import { initializeTimer } from "./initializers";
 import { GameState } from "./gamestate";
+import { emit } from "cluster";
 
 /**
  * Rudimentary velocity implementation... will replace directions with
@@ -165,6 +166,22 @@ export function spawnerSystem(ents: ReadonlyArray<Entity>, state: BaseState) {
 
 export function animControlSystem(ents: ReadonlyArray<Entity>, state: BaseState) {
     ents.forEach(ent => {
+        // if (ent.control && ent.anim) {
+            // if (ent.control.moving && !ent.control.movingAnimSet) {
+            //     ent.anim = changeSequence(SequenceTypes.walk, ent.anim);
+            //     ent.control.movingAnimSet = true;
+            // }
+            // else if (!ent.control.moving) {
+            //     if (ent.control.attack) {
+            //         ent.anim = changeSequence(SequenceTypes.attack, ent.anim);
+            //         console.log("hello");
+            //     }
+            //     else {
+            //         ent.anim = changeSequence(SequenceTypes.idle, ent.anim);
+            //         ent.control.movingAnimSet = false;
+            //     }
+            // }
+        // }
         if (ent.control && ent.anim) {
             if (ent.control.moving && !ent.control.movingAnimSet) {
                 ent.anim = changeSequence(SequenceTypes.walk, ent.anim);
@@ -190,9 +207,9 @@ export function animControlSystem(ents: ReadonlyArray<Entity>, state: BaseState)
 export function marineAttackSystem(ents: ReadonlyArray<Entity>, state: GameState) {
     ents.forEach(ent => {
         if (ent.marine) {
-            state.aliens.forEach(alien => {
-                const v1 = ent.pos.loc.x - alien.pos.loc.x;
-                const v2 = ent.pos.loc.y - alien.pos.loc.y;
+            if (ent.marine.target) {
+                const v1 = ent.pos.loc.x - ent.marine.target.pos.loc.x;
+                const v2 = ent.pos.loc.y - ent.marine.target.pos.loc.y;
                 const distance = Math.sqrt(v1*v1 + v2*v2);
 
                 if (distance < 150) {
@@ -203,9 +220,32 @@ export function marineAttackSystem(ents: ReadonlyArray<Entity>, state: GameState
                 }
                 else {
                     ent.control.attack = false;
+                    ent.marine.target = undefined;
                 }
 
-            });
+            }
+            else {
+                let marineHasTarget = false;
+                state.aliens.forEach(alien => {
+                    if (!marineHasTarget) {
+                        const v1 = ent.pos.loc.x - alien.pos.loc.x;
+                        const v2 = ent.pos.loc.y - alien.pos.loc.y;
+                        const distance = Math.sqrt(v1*v1 + v2*v2);
+
+                        if (distance < 150) {
+                            console.log("shoot!!!");
+                            marineHasTarget = true;
+                            ent.control.attack = true;
+                            ent.marine.target = alien;
+                            // ent.control.x = ent.pos.loc.x;
+                            // ent.control.y = ent.pos.loc.y;
+                        }
+                        else {
+                            ent.control.attack = false;
+                        }
+                    }
+                });
+            }
         }
     });
 }

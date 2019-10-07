@@ -55,6 +55,7 @@ export class GameState extends BaseState {
         // Register systems.
         this.registerSystem(controlSystem, "control");
         this.registerSystem(velocitySystem);
+        this.registerSystem(animControlSystem);
         this.registerSystem(collisionSystem);
         this.registerSystem(animationSystem);
         this.registerSystem(timerSystem);
@@ -93,14 +94,14 @@ export class GameState extends BaseState {
 
         this.registerEntity(worker1);
 
-        let alien1 = new Entity();
-        alien1.pos = initializePosition(700, 250, 5);
-        alien1.sprite = initializeSprite("./data/textures/alien1.png", this.gameScene, 4);
-        alien1.anim = initializeAnimation(SequenceTypes.walk, alienAnim);
-        alien1.followsEntity = { entityToFollow: marine1 };
-        this.aliens.push(alien1);
+        // let alien1 = new Entity();
+        // alien1.pos = initializePosition(700, 250, 5);
+        // alien1.sprite = initializeSprite("./data/textures/alien1.png", this.gameScene, 4);
+        // alien1.anim = initializeAnimation(SequenceTypes.walk, alienAnim);
+        // alien1.followsEntity = { entityToFollow: marine1 };
+        // this.aliens.push(alien1);
         
-        this.registerEntity(alien1);
+        // this.registerEntity(alien1);
 
         // Set up background elements (10 wide, 6 tall);
         let dirtX = 64;

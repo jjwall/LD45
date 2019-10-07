@@ -94,5 +94,5 @@ export interface WorkerComponent {
 }
 
 export interface MarineComponent {
-    
+    target?: Entity;
 }
