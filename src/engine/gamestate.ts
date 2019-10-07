@@ -1,5 +1,5 @@
 import { initializeAnimation, initializeControls, initializeHitBox, initializeHurtBox, initializeSprite, initializePosition, initializeVelocity, initializeTimer } from "./initializers";
-import { positionSystem, collisionSystem, timerSystem, animationSystem, velocitySystem, followSystem, spawnerSystem, animControlSystem, marineAttackSystem } from "./coresystems";
+import { positionSystem, collisionSystem, timerSystem, animationSystem, velocitySystem, followSystem, spawnerSystem, animControlSystem, marineAttackSystem, deathSystem } from "./coresystems";
 import { Scene, Camera, Color, WebGLRenderer, OrthographicCamera, Vector2, Vector3 } from "three";
 import { setHurtBoxGraphic, playAudio, setHitBoxGraphic } from "./helpers";
 import { HurtBoxTypes, SequenceTypes } from "./enums";
@@ -64,6 +64,7 @@ export class GameState extends BaseState {
         this.registerSystem(spawnerSystem);
         this.registerSystem(marineAttackSystem);
         this.registerSystem(followSystem);
+        this.registerSystem(deathSystem);
 
         // playAudio("./data/audio/Pale_Blue.mp3", 0.3, true);
 
@@ -139,6 +140,7 @@ export class GameState extends BaseState {
             // enemy.hitBox = initializeHitBox(enemy.sprite, [HurtBoxTypes.player]);
             // enemy.hurtBox = initializeHurtBox(enemy.sprite, HurtBoxTypes.enemy);
             alien.followsEntity = { entityToFollow: player };
+            alien.hit = { points: 100 };
             this.aliens.push(alien);
             // setHitBoxGraphic(enemy.sprite, enemy.hitBox);
             // alien.hitBox.onHit = () => {

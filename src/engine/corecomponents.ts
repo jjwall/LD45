@@ -96,3 +96,7 @@ export interface WorkerComponent {
 export interface MarineComponent {
     target?: Entity;
 }
+
+export interface HitPointsComponent {
+    points: number;
+}

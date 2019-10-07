@@ -217,6 +217,7 @@ export function marineAttackSystem(ents: ReadonlyArray<Entity>, state: GameState
                     if (!ent.control.moving) {
                         console.log("shoot!!!");
                         ent.control.attack = true;
+                        ent.marine.target.hit.points--;
                     }
                     // ent.control.x = ent.pos.loc.x;
                     // ent.control.y = ent.pos.loc.y;
@@ -248,6 +249,17 @@ export function marineAttackSystem(ents: ReadonlyArray<Entity>, state: GameState
                         }
                     }
                 });
+            }
+        }
+    });
+}
+
+export function deathSystem(ents: ReadonlyArray<Entity>, state: GameState) {
+    ents.forEach(ent => {
+        if (ent.hit && ent.sprite) {
+            if (ent.hit.points <= 0) {
+                state.gameScene.remove(ent.sprite);
+                state.removeEntity(ent);
             }
         }
     });

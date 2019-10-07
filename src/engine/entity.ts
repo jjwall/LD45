@@ -1,4 +1,4 @@
-import { PositionComponent, VelocityComponent, AnimationComponent, HitBoxComponent, HurtBoxComponent, TimerComponent, FollowComponent, SpawnerComponent, WorkerComponent, MarineComponent } from "./corecomponents";
+import { PositionComponent, VelocityComponent, AnimationComponent, HitBoxComponent, HurtBoxComponent, TimerComponent, FollowComponent, SpawnerComponent, WorkerComponent, MarineComponent, HitPointsComponent } from "./corecomponents";
 import { ControlComponent } from "./controlcomponent";
 import { Mesh } from "three";
 
@@ -21,4 +21,5 @@ export class Entity {
      public followsEntity: FollowComponent;
      public worker: WorkerComponent;
      public marine: MarineComponent;
+     public hit: HitPointsComponent;
 }
