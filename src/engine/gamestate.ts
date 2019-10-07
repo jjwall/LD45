@@ -66,7 +66,7 @@ export class GameState extends BaseState {
         this.registerSystem(followSystem);
         this.registerSystem(deathSystem);
 
-        // playAudio("./data/audio/Pale_Blue.mp3", 0.3, true);
+        playAudio("./data/audio/Pale_Blue.mp3", 0.3, true);
 
         // Set up player entity.
         let marine1 = new Entity();
@@ -86,8 +86,10 @@ export class GameState extends BaseState {
             marine1.hit.points--;
             if (marine1.hit.points <= 0) {
                 if (marine1.marine.target) {
-                    this.gameScene.remove(marine1.marine.target.targeted.sprite);
-                    this.removeEntity(marine1.marine.target.targeted);
+                    if (marine1.marine.target.targeted) {
+                        this.gameScene.remove(marine1.marine.target.targeted.sprite);
+                        this.removeEntity(marine1.marine.target.targeted);
+                    }
                 }
                 if (marine1.control.selected) {
                     this.gameScene.remove(marine1.control.selector.sprite);
