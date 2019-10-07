@@ -4,8 +4,10 @@
  * and HurtBox "type" property.
  */
 export const enum HurtBoxTypes {
-    player,
-    enemy,
+    worker,
+    marine,
+    barracks,
+    alien,
     // ..
 }
 

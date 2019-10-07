@@ -78,9 +78,23 @@ export class GameState extends BaseState {
         // player.vel = initializeVelocity(.65);
         // player.vel.friction = 0.9;
         // player.anim = initializeAnimation(SequenceTypes.walk, playerAnim);
-        // player.hurtBox = initializeHurtBox(player.sprite, HurtBoxTypes.test, 50, 50, -300, -100);
-        marine1.hurtBox = initializeHurtBox(marine1.sprite, HurtBoxTypes.player);
-        // setHurtBoxGraphic(player.sprite, player.hurtBox);
+        // marine1.hurtBox = initializeHurtBox(marine1.sprite, HurtBoxTypes.marine);//, 50, 50, -300, -100);
+        marine1.hurtBox = initializeHurtBox(marine1.sprite, HurtBoxTypes.marine);
+        marine1.hit = { points: 100 };
+        // setHurtBoxGraphic(marine1.sprite, marine1.hurtBox);
+        marine1.hurtBox.onHurt = () => {
+            marine1.hit.points--;
+            if (marine1.hit.points <= 0) {
+                if (marine1.marine.target) {
+                    this.gameScene.remove(marine1.marine.target.targeted.sprite);
+                    this.removeEntity(marine1.marine.target.targeted);
+                }
+                if (marine1.control.selected) {
+                    this.gameScene.remove(marine1.control.selector.sprite);
+                    this.removeEntity(marine1.control.selector);
+                }
+            }
+        }
         this.alienTargets.push(marine1);
         
         this.registerEntity(marine1);
@@ -137,7 +151,7 @@ export class GameState extends BaseState {
             alien.pos = initializePosition(xPos, yPos, 4);
             alien.sprite = initializeSprite("./data/textures/alien1.png", this.gameScene, 4);
             alien.anim = initializeAnimation(SequenceTypes.walk, alienAnim);
-            // enemy.hitBox = initializeHitBox(enemy.sprite, [HurtBoxTypes.player]);
+            alien.hitBox = initializeHitBox(alien.sprite, [HurtBoxTypes.worker, HurtBoxTypes.marine, HurtBoxTypes.barracks]);
             // enemy.hurtBox = initializeHurtBox(enemy.sprite, HurtBoxTypes.enemy);
             alien.followsEntity = { entityToFollow: this.alienTargets[Math.floor(Math.random()*this.alienTargets.length)] };
             alien.hit = { points: 100 };

@@ -3,7 +3,7 @@ import { changeSequence } from "./helpers";
 import { HurtBoxTypes, SequenceTypes } from "./enums";
 import { Vector3, NearestFilter, MeshBasicMaterial } from "three";
 import { GameState } from "./gamestate";
-import { initializePosition, initializeTimer, initializeControls, initializeAnimation } from "./initializers";
+import { initializePosition, initializeTimer, initializeControls, initializeAnimation, initializeHurtBox } from "./initializers";
 import { initializeSprite } from "./initializers";
 import { Resources } from "../resourcemanager";
 import { marineAnim } from "../../data/animations/marine";
@@ -57,6 +57,11 @@ export function controlSystem(ents: ReadonlyArray<Entity>, state: GameState){
                             const newSpriteMap = Resources.instance.getTexture("./data/textures/barracks.png");
                             newSpriteMap.magFilter = NearestFilter;
                             barracks.sprite.material = new MeshBasicMaterial({ map: newSpriteMap, transparent: true });
+                            barracks.hurtBox = initializeHurtBox(barracks.sprite, HurtBoxTypes.barracks);
+                            barracks.hit = { points: 300 };
+                            barracks.hurtBox.onHurt = () => {
+                                barracks.hit.points--;
+                            }
                             state.alienTargets.push(barracks);
                             barracks.spawner = { spawnTime: 500, randomNumber: 0, spawnEntity: (): Entity => {
                                 let marine = new Entity();
@@ -65,6 +70,21 @@ export function controlSystem(ents: ReadonlyArray<Entity>, state: GameState){
                                 marine.control = initializeControls(marine.pos.loc.x, marine.pos.loc.y);
                                 marine.anim = initializeAnimation(SequenceTypes.idle, marineAnim);
                                 marine.marine = {};
+                                marine.hurtBox = initializeHurtBox(marine.sprite, HurtBoxTypes.marine);
+                                marine.hit = { points: 100 };
+                                marine.hurtBox.onHurt = () => {
+                                    marine.hit.points--;
+                                    if (marine.hit.points <= 0) {
+                                        if (marine.marine.target) {
+                                            this.gameScene.remove(marine.marine.target.targeted.sprite);
+                                            this.removeEntity(marine.marine.target.targeted);
+                                        }
+                                        if (marine.control.selected) {
+                                            this.gameScene.remove(marine.control.selector.sprite);
+                                            this.removeEntity(marine.control.selector);
+                                        }
+                                    }
+                                }
                                 state.alienTargets.push(marine);
 
                                 return marine;
