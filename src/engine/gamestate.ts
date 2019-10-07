@@ -70,7 +70,7 @@ export class GameState extends BaseState {
 
         // Set up player entity.
         let marine1 = new Entity();
-        marine1.pos = initializePosition(740, 360, 5);
+        marine1.pos = initializePosition(690, 360, 5);
         marine1.sprite = initializeSprite("./data/textures/marine.png", this.gameScene, 4);
         marine1.control = initializeControls(marine1.pos.loc.x, marine1.pos.loc.y);
         marine1.anim = initializeAnimation(SequenceTypes.idle, marineAnim);
@@ -104,7 +104,7 @@ export class GameState extends BaseState {
         this.registerEntity(marine1);
 
         let worker1 = new Entity();
-        worker1.pos = initializePosition(640, 360, 5);
+        worker1.pos = initializePosition(590, 360, 5);
         worker1.sprite = initializeSprite("./data/textures/worker.png", this.gameScene, 4);
         worker1.control = initializeControls(worker1.pos.loc.x, worker1.pos.loc.y);
         worker1.anim = initializeAnimation(SequenceTypes.idle, workerAnim);
@@ -141,7 +141,6 @@ export class GameState extends BaseState {
         // Set up background elements (10 wide, 6 tall);
         let dirtX = 64;
         let dirtY = 64;
-        let count = 0; // temp
         
         for (let r = 0; r < 10; r++) {
             for (let c = 0; c < 6; c++) {
@@ -150,17 +149,20 @@ export class GameState extends BaseState {
                 dirt.sprite = initializeSprite("./data/textures/dirt.png", this.gameScene, 4);
                 this.registerEntity(dirt);
                 dirtY += 128;
-                count++
             }
             dirtY = 64;
             dirtX += 128;
         }
-        console.log(count);
 
-        this.setUpEnemySpawner(1260, 700);
-        this.setUpEnemySpawner(20, 700);
-        this.setUpEnemySpawner(1260, 20);
-        this.setUpEnemySpawner(20, 20);
+        let spawnStart = new Entity();
+        spawnStart.timer = {ticks: 1500, ontimeout: () => {
+            this.setUpEnemySpawner(1260, 700);
+            this.setUpEnemySpawner(20, 700);
+            this.setUpEnemySpawner(1260, 20);
+            this.setUpEnemySpawner(20, 20);
+        }};
+
+        this.registerEntity(spawnStart);
     }
 
     private setUpEnemySpawner(xPos: number, yPos: number) {
