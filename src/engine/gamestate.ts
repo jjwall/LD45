@@ -123,13 +123,13 @@ export class GameState extends BaseState {
         }
         console.log(count);
 
-        this.setUpEnemySpawner(1260, 700, marine1);
-        this.setUpEnemySpawner(20, 700, marine1);
-        this.setUpEnemySpawner(1260, 20, marine1);
-        this.setUpEnemySpawner(20, 20, marine1);
+        this.setUpEnemySpawner(1260, 700);
+        this.setUpEnemySpawner(20, 700);
+        this.setUpEnemySpawner(1260, 20);
+        this.setUpEnemySpawner(20, 20);
     }
 
-    private setUpEnemySpawner(xPos: number, yPos: number, player: Entity) {
+    private setUpEnemySpawner(xPos: number, yPos: number) {
         let spawner = new Entity();
 
         spawner.spawner = { randomNumber: 750, spawnTime: 0, spawnEntity: (): Entity => {
@@ -139,7 +139,7 @@ export class GameState extends BaseState {
             alien.anim = initializeAnimation(SequenceTypes.walk, alienAnim);
             // enemy.hitBox = initializeHitBox(enemy.sprite, [HurtBoxTypes.player]);
             // enemy.hurtBox = initializeHurtBox(enemy.sprite, HurtBoxTypes.enemy);
-            alien.followsEntity = { entityToFollow: player };
+            alien.followsEntity = { entityToFollow: this.alienTargets[Math.floor(Math.random()*this.alienTargets.length)] };
             alien.hit = { points: 100 };
             this.aliens.push(alien);
             // setHitBoxGraphic(enemy.sprite, enemy.hitBox);
