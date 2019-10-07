@@ -51,6 +51,7 @@ export function initializeControls(xPos: number, yPos: number): ControlComponent
         selector: undefined,
         movingAnimSet: false,
         attackingAnimSet: false,
+        idleAnimSet: false,
         bKey: false,
         dKey: false,
         jump: false,

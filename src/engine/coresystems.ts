@@ -170,16 +170,19 @@ export function animControlSystem(ents: ReadonlyArray<Entity>, state: BaseState)
             if (ent.control.moving && !ent.control.movingAnimSet) {
                 ent.anim = changeSequence(SequenceTypes.walk, ent.anim);
                 ent.control.movingAnimSet = true;
+                ent.control.idleAnimSet = true;
             }
             else if (!ent.control.moving) {
                 if (ent.control.attack && !ent.control.attackingAnimSet) {
                     ent.anim = changeSequence(SequenceTypes.attack, ent.anim);
                     ent.control.attackingAnimSet = true;
+                    ent.control.idleAnimSet = false;
                 }
-                else {
+                else if (ent.control.idleAnimSet) {
                     ent.anim = changeSequence(SequenceTypes.idle, ent.anim);
                     ent.control.movingAnimSet = false;
                     ent.control.attackingAnimSet = false;
+                    ent.control.idleAnimSet = true;
                 }
             }
         }
@@ -214,7 +217,6 @@ export function marineAttackSystem(ents: ReadonlyArray<Entity>, state: GameState
                 const distance = Math.sqrt(v1*v1 + v2*v2);
 
                 if (distance < 150 && !ent.control.moving) {
-                    console.log("shoot!!!");
                     if (ent.marine.target) {
                         ent.marine.target.hit.points--;
                         ent.control.attack = true;
@@ -230,17 +232,18 @@ export function marineAttackSystem(ents: ReadonlyArray<Entity>, state: GameState
 
                         if (ent.marine.target.hit.points <= 0) {
                             if (ent.marine.target.targeted) {
-                            let index = state.aliens.indexOf(ent.marine.target);
-                            if (index > -1) {
-                                state.aliens.splice(index, 1);
-                            }
-                            state.gameScene.remove(ent.marine.target.targeted.sprite);
-                            state.removeEntity(ent.marine.target.targeted);
-                            state.gameScene.remove(ent.marine.target.sprite);
-                            state.removeEntity(ent.marine.target);
-                            ent.marine.target.targeted = undefined;
-                            ent.marine.target = undefined;
-                            ent.control.attack = false;
+                                let index = state.aliens.indexOf(ent.marine.target);
+                                if (index > -1) {
+                                    state.aliens.splice(index, 1);
+                                }
+                                state.gameScene.remove(ent.marine.target.targeted.sprite);
+                                state.removeEntity(ent.marine.target.targeted);
+                                state.gameScene.remove(ent.marine.target.sprite);
+                                state.removeEntity(ent.marine.target);
+                                ent.marine.target.targeted = undefined;
+                                ent.marine.target = undefined;
+                                ent.control.attack = false;
+                                ent.control.idleAnimSet = true;
                             }
                         }
                     }
@@ -253,6 +256,7 @@ export function marineAttackSystem(ents: ReadonlyArray<Entity>, state: GameState
                         state.removeEntity(ent.marine.target.targeted);
                         ent.marine.target.targeted = undefined;
                         ent.control.attack = false;
+                        ent.control.idleAnimSet = true;
                         ent.marine.target = undefined;
                     }
                 }
