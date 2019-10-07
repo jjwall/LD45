@@ -109,6 +109,22 @@ export class GameState extends BaseState {
         worker1.control = initializeControls(worker1.pos.loc.x, worker1.pos.loc.y);
         worker1.anim = initializeAnimation(SequenceTypes.idle, workerAnim);
         worker1.worker = {};
+        worker1.hurtBox = initializeHurtBox(worker1.sprite, HurtBoxTypes.marine);
+        worker1.hit = { points: 100 };
+        // setHurtBoxGraphic(marine1.sprite, marine1.hurtBox);
+        worker1.hurtBox.onHurt = () => {
+            worker1.hit.points--;
+            if (worker1.hit.points <= 0) {
+                if (worker1.control.selected) {
+                    this.gameScene.remove(worker1.control.selector.sprite);
+                    this.removeEntity(worker1.control.selector);
+                }
+                // let index = this.alienTargets.indexOf(marine1);
+                // if (index > -1) {
+                //     this.alienTargets.splice(index, 1);
+                // }
+            }
+        }
         // marine2.hurtBox = initializeHurtBox(marine1.sprite, HurtBoxTypes.player);
 
         this.registerEntity(worker1);
