@@ -38,9 +38,15 @@ export class GameRoot extends Component<Props, State> {
         });
     }
 
-    public addScoreFromEnemyKill = (): void => {
+    public addScoreFromEnemyHurt = (): void => {
         this.setState({
-            score: this.state.score + 50
+            score: this.state.score + 1
+        });
+    }
+
+    public addScoreFromBarracks = (): void => {
+        this.setState({
+            score: this.state.score + 500
         });
     }
 
@@ -72,8 +78,8 @@ export class GameRoot extends Component<Props, State> {
                 <panel>
                     <label contents="Score:" top="50" left="50"></label>
                     <label contents={" " + this.state.score} color="#0000FF" top="75" left="40"></label>
-                    <label contents="Health:" top="100" left="50"></label>
-                    <label contents={" " + this.state.playerHealth} color="#FF0000" top="125" left="40"></label>
+                    {/* <label contents="Health:" top="100" left="50"></label>
+                    <label contents={" " + this.state.playerHealth} color="#FF0000" top="125" left="40"></label> */}
                 </panel>
             </panel>
         )

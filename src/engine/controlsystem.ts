@@ -22,8 +22,8 @@ export function controlSystem(ents: ReadonlyArray<Entity>, state: GameState){
 
             if (distance > 5) {
                 const angle = Math.atan2(ent.control.y - ent.pos.loc.y, ent.control.x - ent.pos.loc.x);
-                ent.pos.loc.x += Math.cos(angle) * 2;
-                ent.pos.loc.y += Math.sin(angle) * 2;
+                ent.pos.loc.x += Math.cos(angle) * 2.25;
+                ent.pos.loc.y += Math.sin(angle) * 2.25;
 
                 ent.control.moving = true;
             }
@@ -59,6 +59,7 @@ export function controlSystem(ents: ReadonlyArray<Entity>, state: GameState){
                             barracks.sprite.material = new MeshBasicMaterial({ map: newSpriteMap, transparent: true });
                             barracks.hurtBox = initializeHurtBox(barracks.sprite, HurtBoxTypes.barracks);
                             barracks.hit = { points: 300 };
+                            state.rootComponent.addScoreFromBarracks();
                             barracks.hurtBox.onHurt = () => {
                                 barracks.hit.points--;
                                 if (barracks.hit.points <= 0) {

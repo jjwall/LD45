@@ -151,6 +151,7 @@ export function followSystem(ents: ReadonlyArray<Entity>, state: GameState) {
             }
             else {
                 console.log("game over!");
+                state.pushLoseState();
             }
         }
     })
@@ -234,6 +235,7 @@ export function marineAttackSystem(ents: ReadonlyArray<Entity>, state: GameState
                     if (ent.marine.target) {
                         ent.marine.target.hit.points--;
                         ent.control.attack = true;
+                        state.rootComponent.addScoreFromEnemyHurt();
 
                         if (ent.marine.target.targeted) {
                             ent.marine.target.targeted.pos.loc.x = ent.marine.target.pos.loc.x;

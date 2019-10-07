@@ -70,7 +70,7 @@ export class GameState extends BaseState {
 
         // Set up player entity.
         let marine1 = new Entity();
-        marine1.pos = initializePosition(640, 360, 5);
+        marine1.pos = initializePosition(740, 360, 5);
         marine1.sprite = initializeSprite("./data/textures/marine.png", this.gameScene, 4);
         marine1.control = initializeControls(marine1.pos.loc.x, marine1.pos.loc.y);
         marine1.anim = initializeAnimation(SequenceTypes.idle, marineAnim);
@@ -104,7 +104,7 @@ export class GameState extends BaseState {
         this.registerEntity(marine1);
 
         let worker1 = new Entity();
-        worker1.pos = initializePosition(740, 360, 5);
+        worker1.pos = initializePosition(640, 360, 5);
         worker1.sprite = initializeSprite("./data/textures/worker.png", this.gameScene, 4);
         worker1.control = initializeControls(worker1.pos.loc.x, worker1.pos.loc.y);
         worker1.anim = initializeAnimation(SequenceTypes.idle, workerAnim);
