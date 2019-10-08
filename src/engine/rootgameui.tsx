@@ -19,6 +19,7 @@ interface Props {
 interface State {
     score: number;
     playerHealth: number;
+    displayWorkerUi: boolean;
 }
 
 export class GameRoot extends Component<Props, State> {
@@ -27,6 +28,7 @@ export class GameRoot extends Component<Props, State> {
         this.state = {
             score: 0,
             playerHealth: 100,
+            displayWorkerUi: false,
         };
 
         setInterval(() => this.addHealth(), 1000);
@@ -72,16 +74,49 @@ export class GameRoot extends Component<Props, State> {
         this.props.pushLoseState();
     }
 
+    public toggleWorkerUiOn() {
+        if (!this.state.displayWorkerUi) {
+            this.setState({
+                displayWorkerUi: !this.state.displayWorkerUi
+            });
+        }
+    }
+
+    public toggleWorkerUiOff() {
+        if (this.state.displayWorkerUi) {
+            this.setState({
+                displayWorkerUi: !this.state.displayWorkerUi
+            });
+        }
+    }
     render(): JSXElement {
-        return(
-            <panel>
-                <panel>
-                    <label contents="Score:" top="50" left="50"></label>
-                    <label contents={" " + this.state.score} color="#0000FF" top="75" left="40"></label>
-                    {/* <label contents="Health:" top="100" left="50"></label>
-                    <label contents={" " + this.state.playerHealth} color="#FF0000" top="125" left="40"></label> */}
-                </panel>
-            </panel>
-        )
+        if (this.state.displayWorkerUi) {
+            return(
+                    <panel>
+                        <label contents="Score:" top="50" left="50"></label>
+                        <label contents={" " + this.state.score} color="#0000FF" top="75" left="40"></label>
+                        <panel left="1100" top ="600" height="190" width="300" color="#282828"></panel>
+                        <panel left="1100" top ="540" height="50" width="280" color="#A9A9A9" z_index>
+                            <label contents="B - Build Barracks" top="7"></label>
+                        </panel>
+                        <panel left="1100" top ="600" height="50" width="280" color="#A9A9A9"></panel>
+                        <panel left="1100" top ="660" height="50" width="280" color="#A9A9A9"></panel>
+                    </panel>
+            )
+        }
+        else {
+            return(
+                    <panel>
+                        <label contents="Score:" top="50" left="50"></label>
+                        <label contents={" " + this.state.score} color="#0000FF" top="75" left="40"></label>
+                        <panel left="1100" top ="6000" height="190" width="300" color="#228B22"></panel>
+                        <panel left="1100" top ="5400" height="50" width="280" color="#00FFFF" z_index>
+                            <label contents="B - Build Barracks" top="7"></label>
+                        </panel>
+                        <panel left="1100" top ="6000" height="50" width="280" color="#00FFFF"></panel>
+                        <panel left="1100" top ="6600" height="50" width="280" color="#00FFFF"></panel>
+                    </panel>
+            )
+        }
     }
 }

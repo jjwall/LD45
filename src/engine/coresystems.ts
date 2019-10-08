@@ -320,6 +320,10 @@ export function deathSystem(ents: ReadonlyArray<Entity>, state: GameState) {
                     // ent.targeted = undefined;
                 }
 
+                if (ent.worker) {
+                    state.rootComponent.toggleWorkerUiOff();
+                }
+
                 state.gameScene.remove(ent.sprite);
                 state.removeEntity(ent);
             }

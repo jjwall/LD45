@@ -38,6 +38,8 @@ export function controlSystem(ents: ReadonlyArray<Entity>, state: GameState){
                     ent.control.selector.pos = initializePosition(ent.pos.loc.x + 3, ent.pos.loc.y - 20, 4);
                     ent.control.selector.sprite = initializeSprite("./data/textures/selector.png", state.gameScene, 4);
                     state.registerEntity(ent.control.selector);
+                    if (ent.worker)
+                        state.rootComponent.toggleWorkerUiOn();
                 }
                 else {
                     ent.control.selector.pos.loc.x = ent.pos.loc.x + 4;
@@ -116,6 +118,9 @@ export function controlSystem(ents: ReadonlyArray<Entity>, state: GameState){
                     state.gameScene.remove(ent.control.selector.sprite);
                     state.removeEntity(ent.control.selector);
                     ent.control.selector = undefined;
+
+                    if (ent.worker)
+                        state.rootComponent.toggleWorkerUiOff();
                 }
             }
         }
