@@ -4,6 +4,7 @@ import { layoutWidget } from "../ui/layoutwidget";
 import { Widget, createWidget } from "../ui/widget";
 import { LoseRoot, renderLoseUi } from "./rootloseui"
 import { renderMainMenuUi, MainMenuRoot } from "./rootmainmenuui";
+import { MainMenuState } from "./mainmenustate";
 
 export class LoseState extends BaseState {
     public uiScene: Scene;
@@ -28,6 +29,8 @@ export class LoseState extends BaseState {
     private goToMainMenu = (): void => {
         this.stateStack.pop();
         this.stateStack.pop();
+        let mainMenuState = new MainMenuState(this.stateStack);
+        this.stateStack.push(mainMenuState);
     }
 
     public update(): void {}
