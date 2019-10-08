@@ -89,6 +89,7 @@ export class GameState extends BaseState {
                     if (marine1.marine.target.targeted) {
                         this.gameScene.remove(marine1.marine.target.targeted.sprite);
                         this.removeEntity(marine1.marine.target.targeted);
+                        marine1.marine.target.targeted = undefined;
                     }
                 }
                 if (marine1.control.selected) {

@@ -88,6 +88,7 @@ export function controlSystem(ents: ReadonlyArray<Entity>, state: GameState){
                                             if (marine.marine.target.targeted) {
                                                 state.gameScene.remove(marine.marine.target.targeted.sprite);
                                                 state.removeEntity(marine.marine.target.targeted);
+                                                marine.marine.target.targeted = undefined;
                                             }
                                         }
                                         if (marine.control.selected) {
