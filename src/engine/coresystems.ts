@@ -183,44 +183,16 @@ export function spawnerSystem(ents: ReadonlyArray<Entity>, state: BaseState) {
 export function animControlSystem(ents: ReadonlyArray<Entity>, state: BaseState) {
     ents.forEach(ent => {
         if (ent.control && ent.anim) {
-            if (ent.control.moving && !ent.control.movingAnimSet) {
+            if (ent.control.moving) {
                 ent.anim = changeSequence(SequenceTypes.walk, ent.anim);
-                ent.control.movingAnimSet = true;
-                ent.control.idleAnimSet = true;
             }
-            else if (!ent.control.moving) {
-                if (ent.control.attack && !ent.control.attackingAnimSet) {
-                    ent.anim = changeSequence(SequenceTypes.attack, ent.anim);
-                    ent.control.attackingAnimSet = true;
-                    ent.control.idleAnimSet = false;
-                }
-                else if (ent.control.idleAnimSet) {
-                    ent.anim = changeSequence(SequenceTypes.idle, ent.anim);
-                    ent.control.movingAnimSet = false;
-                    ent.control.attackingAnimSet = false;
-                    ent.control.idleAnimSet = true;
-                }
+            else if (!ent.control.moving && ent.control.attack) {
+                ent.anim = changeSequence(SequenceTypes.attack, ent.anim);
+            }
+            else {
+                ent.anim = changeSequence(SequenceTypes.idle, ent.anim);
             }
         }
-        // if (ent.control && ent.anim) {
-        //     if (ent.control.moving && !ent.control.movingAnimSet) {
-        //         ent.anim = changeSequence(SequenceTypes.walk, ent.anim);
-        //         ent.control.movingAnimSet = true;
-        //     }
-        //     else if (!ent.control.moving && !ent.control.attack) {
-        //         ent.anim = changeSequence(SequenceTypes.idle, ent.anim);
-        //         ent.control.movingAnimSet = false;
-        //     }
-
-        //     if (ent.control.attack && !ent.control.attackingAnimSet) {
-        //         ent.anim = changeSequence(SequenceTypes.attack, ent.anim);
-        //         ent.control.attackingAnimSet = true;
-        //     }
-        //     else if (!ent.control.attack && !ent.control.moving) {
-        //         ent.anim = changeSequence(SequenceTypes.idle, ent.anim);
-        //         ent.control.attackingAnimSet = false;
-        //     }
-        // }
     })
 }
 
@@ -261,12 +233,9 @@ export function marineAttackSystem(ents: ReadonlyArray<Entity>, state: GameState
                                 ent.marine.target.targeted = undefined;
                                 ent.marine.target = undefined;
                                 ent.control.attack = false;
-                                ent.control.idleAnimSet = true;
                             }
                         }
                     }
-                    // ent.control.x = ent.pos.loc.x;
-                    // ent.control.y = ent.pos.loc.y;
                 }
                 else if (ent.marine.target) {
                     if (ent.marine.target.targeted) {
@@ -274,7 +243,6 @@ export function marineAttackSystem(ents: ReadonlyArray<Entity>, state: GameState
                         state.removeEntity(ent.marine.target.targeted);
                         ent.marine.target.targeted = undefined;
                         ent.control.attack = false;
-                        ent.control.idleAnimSet = true;
                         ent.marine.target = undefined;
                     }
                 }
