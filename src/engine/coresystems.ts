@@ -84,28 +84,27 @@ export function collisionSystem(ents: ReadonlyArray<Entity>) {
 export function positionSystem(ents: ReadonlyArray<Entity>) {
     ents.forEach(ent => {
         if (ent.sprite && ent.pos) {
-            ent.sprite.position.copy(ent.pos.loc);
             ent.sprite.rotation.set(0, 0, Math.atan2(ent.pos.dir.y, ent.pos.dir.x));
 
-            if (ent.pos.loc.y > 720) {
-                ent.pos.loc.y = 0;
-                ent.sprite.position.copy(ent.pos.loc);
-            }
+            // Commentted out b/c this game doesn't use the wrap around feature.
+            
+            // if (ent.pos.loc.y > 720) {
+            //     ent.pos.loc.y = 0;
+            // }
 
-            if (ent.pos.loc.x > 1280) {
-                ent.pos.loc.x = 0;
-                ent.sprite.position.copy(ent.pos.loc);
-            }
+            // if (ent.pos.loc.x > 1280) {
+            //     ent.pos.loc.x = 0;
+            // }
 
-            if (ent.pos.loc.y < 0) {
-                ent.pos.loc.y = 720;
-                ent.sprite.position.copy(ent.pos.loc);
-            }
+            // if (ent.pos.loc.y < 0) {
+            //     ent.pos.loc.y = 720;
+            // }
 
-            if (ent.pos.loc.x < 0) {
-                ent.pos.loc.x = 1280;
-                ent.sprite.position.copy(ent.pos.loc);
-            }
+            // if (ent.pos.loc.x < 0) {
+            //     ent.pos.loc.x = 1280;
+            // }
+
+            ent.sprite.position.copy(ent.pos.loc);
         }
     });
 }
